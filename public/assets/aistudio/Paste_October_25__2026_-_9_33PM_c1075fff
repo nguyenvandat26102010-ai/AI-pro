@@ -1,0 +1,1065 @@
+# NDAWG PRO — APEX INFINITY V14
+# ADAPTIVE FRONTIER INTELLIGENCE
+## COMPLETE FUNCTIONAL UPGRADE • UNIVERSAL KNOWLEDGE ACCESS • SELF-EVALUATION • MULTI-MODEL ORCHESTRATION • CONTINUOUS IMPROVEMENT
+
+---
+
+# PART 0 — MASTER DIRECTIVE
+
+Upgrade the EXISTING NDAWG PRO — APEX INFINITY application using V14 as an extension and consolidation of the previous V6–V13 specifications.
+
+The mission is to improve the quality, reliability, speed, intelligence, usability, knowledge access, and operational completeness of EVERY existing AI capability.
+
+Do not limit the work to creating additional modules.
+
+Inspect whether the existing modules work correctly, identify their weaknesses, repair them, connect them into a coherent system, and verify their results.
+
+The goal is not to make the application look more advanced. The goal is to make it demonstrably more useful and reliable.
+
+Use the existing project as the source of truth.
+
+Preserve working functionality, user data, compatible interfaces, security restrictions, and established architectural boundaries.
+
+Do not rewrite the application from scratch without strong technical justification.
+
+Do not merely return a plan. Make actual changes to the existing codebase, execute the available checks, repair regressions, and provide evidence of the results.
+
+The existing product name remains:
+
+**NDAWG PRO — APEX INFINITY**
+
+## Fundamental capability rule
+
+NDAWG PRO must be designed to expand its access to knowledge and tools continuously, but it must never claim access to resources, accounts, models, files, or services that the actual runtime cannot reach.
+
+The following capabilities must remain distinct:
+
+- Knowledge already available to a model.
+- Knowledge retrieved during the current request.
+- Knowledge indexed in the application.
+- User-approved persistent memory.
+- Current information obtained through external APIs.
+- Information collected from authorized repositories or files.
+- Provider-side model inference.
+- Actual model training or fine-tuning.
+
+Do not treat these as equivalent.
+
+---
+
+# PART 1 — UNIVERSAL FUNCTION AUDIT AND REPAIR ENGINE
+
+Create or improve a `CapabilityQualityEngine` that evaluates the real state of every major application capability.
+
+Do not rely on file names, comments, UI buttons, metadata declarations, or previously generated reports as proof.
+
+Inspect the actual execution path of each feature.
+
+## 1.1 Capability inventory
+
+Inspect the existing implementation across:
+
+- Core orchestration.
+- Provider adapters.
+- Model routing.
+- Streaming.
+- Search and research.
+- RAG.
+- Data ingestion.
+- Knowledge storage.
+- Knowledge graph.
+- Memory.
+- Multilingual support.
+- Microphone and STT.
+- TTS and voice interaction.
+- Image understanding.
+- Image generation and editing.
+- Video processing.
+- Coding and data analysis.
+- Tool execution.
+- Agent workflows.
+- Training Gate.
+- Conversation receipts.
+- Development archives.
+- Source-code collection.
+- Administration and permissions.
+- Personalization.
+- Background-image library.
+- Audit and security.
+- Diagnostics.
+- Tests and build configuration.
+
+Include additional modules discovered in the actual repository.
+
+For each capability, identify:
+
+- Intended purpose.
+- Actual implementation.
+- Main entry points.
+- Required dependencies.
+- Provider and model requirements.
+- Permission requirements.
+- Input and output contracts.
+- Error handling.
+- Relevant tests.
+- Current limitations.
+- Performance characteristics where measured.
+
+## 1.2 Detect incomplete functionality
+
+Detect and classify:
+
+- Missing execution paths.
+- Disconnected modules.
+- Duplicate implementations.
+- Broken imports.
+- Inconsistent shared types.
+- Invalid configurations.
+- Missing permissions.
+- Incorrect provider assumptions.
+- Fake success states.
+- Unhandled errors.
+- Poor streaming behavior.
+- Excessive latency.
+- Unnecessary model calls.
+- Incorrect caching.
+- Inadequate source provenance.
+- Incorrect data retention.
+- Unverified integrations.
+- Features represented only by UI controls.
+
+Use statuses:
+
+`WORKING`, `PARTIAL`, `MOCK`, `NOT CONFIGURED`, `NOT TESTED`, `BLOCKED`, `UNAVAILABLE`, `FAILED`.
+
+## 1.3 Repair every safely addressable defect
+
+Prioritize fixes based on:
+
+1. Security risk.
+2. Core chat reliability.
+3. Data integrity.
+4. Incorrect results.
+5. Broken user workflows.
+6. Latency and resource waste.
+7. Maintainability.
+8. Optional capability expansion.
+
+Do not stop after producing an audit.
+
+Repair defects that can be fixed safely within the available environment.
+
+For missing external services, implement the independent components and expose the exact prerequisite instead of fabricating success.
+
+---
+
+# PART 2 — UNIVERSAL CAPABILITY DISCOVERY
+
+Build a centralized `CapabilityRegistry` and an intelligent router that can discover, validate, and select compatible functionality.
+
+Each capability must declare:
+
+- Stable identifier.
+- Purpose.
+- Supported input and output.
+- Provider and model dependencies.
+- Required tools.
+- Required credentials.
+- Required permissions.
+- Current implementation status.
+- Current configuration status.
+- Actual availability.
+- Verification state.
+- Known resource limits.
+- Timeout.
+- Error behavior.
+- Relevant tests.
+
+Support dynamic discovery of configured tools where the provider and runtime allow it.
+
+Do not load every tool definition into every model request when only a small subset is needed.
+
+Use deferred tool discovery, selective tool registration, or an appropriate provider-specific mechanism where supported.
+
+Do not assume that a dynamic tool-discovery API exists for every provider.
+
+## 2.1 Intent-to-capability routing
+
+For each user request:
+
+1. Determine the task category.
+2. Identify the minimum capabilities required.
+3. Check which of those capabilities are truly available.
+4. Respect explicit provider selection.
+5. Respect permissions and privacy constraints.
+6. Select an appropriate model or workflow.
+7. Execute only the necessary tools.
+8. Validate the result.
+9. Report limitations and actual execution status.
+
+Avoid calling every model, searching every data source, or executing every tool for a simple question.
+
+For complex requests, allow a bounded multi-step workflow.
+
+Do not silently substitute an incompatible capability when the requested functionality is unavailable.
+
+---
+
+# PART 3 — FRONTIER MODEL ORCHESTRATION
+
+Upgrade the existing provider integrations and model router.
+
+Consider currently supported capabilities from:
+
+- Google Gemini.
+- OpenAI.
+- Anthropic Claude.
+- DeepSeek.
+- Mistral.
+- Other compatible hosted models.
+- Open-weight models through a genuine configured runtime.
+- Specialist search, embedding, speech, image, or video services.
+
+Only implement providers supported by the actual runtime and configured access.
+
+## 3.1 Capability-based selection
+
+Select a model according to:
+
+- User selection.
+- Task type.
+- Required modalities.
+- Required output structure.
+- Tool compatibility.
+- Current availability.
+- Observed reliability.
+- Response latency.
+- Budget.
+- Privacy requirements.
+- Data-use permissions.
+- Context limits.
+- Verification needs.
+
+Do not equate model size or branding with universal superiority.
+
+Do not claim the router knows the best model for every possible request.
+
+## 3.2 Selective model collaboration
+
+Where multiple providers are configured, support limited collaboration for tasks that benefit from it.
+
+Possible workflow:
+
+`PRIMARY MODEL → EVIDENCE OR RESULT → OPTIONAL INDEPENDENT REVIEW → VALIDATION → FINAL RESPONSE`
+
+Examples include:
+
+- Code generation followed by a focused code review.
+- Research followed by source verification.
+- Mathematical output followed by independent calculation.
+- Structured data followed by schema validation.
+- Complex analysis followed by a targeted counterexample search.
+
+Do not send every question through multiple paid models.
+
+Do not assume agreement between models proves correctness.
+
+Do not send private data to additional providers without suitable authorization.
+
+Explain meaningful fallback or provider switching when applicable.
+
+## 3.3 Provider compatibility
+
+Maintain an explicit capability matrix for each configured model.
+
+Distinguish:
+
+- Text input.
+- Image input.
+- Audio input.
+- Video input.
+- Text generation.
+- Image generation.
+- Audio generation.
+- Tool use.
+- Web search.
+- File search.
+- Structured output.
+- Streaming.
+- Real-time sessions.
+- Context limits.
+- Usage reporting.
+
+Do not infer support for one modality from support for another.
+
+Verify model IDs and features against current official documentation before implementation.
+
+---
+
+# PART 4 — UNIVERSAL KNOWLEDGE ACQUISITION
+
+Upgrade the knowledge engine so that it can acquire and use information from as many legitimate and technically accessible sources as practical.
+
+Support modular connectors for:
+
+- Public websites.
+- Search engines.
+- Official documentation.
+- User-provided URLs.
+- Uploaded documents.
+- Authorized Git repositories.
+- Approved code-hosting integrations.
+- Research repositories.
+- Public datasets.
+- Licensed data collections.
+- University resources.
+- Government publications.
+- Configured APIs.
+- Connected enterprise systems.
+- Authorized conversation archives.
+- Historical development records.
+
+Add other sources when an actual connector, permitted access method, and meaningful use case exist.
+
+The phrase "learn from anywhere" must be implemented as extensible source connectivity, not unrestricted crawling or a claim that all sources are accessible.
+
+## 4.1 Source connector architecture
+
+Every connector must define:
+
+- Connector ID.
+- Source type.
+- Access method.
+- Authentication requirements.
+- Permissions.
+- Supported content.
+- Rate limits.
+- Timeouts.
+- Pagination.
+- Content metadata.
+- Update method.
+- Error handling.
+- Licensing or usage restrictions where known.
+- Status and last verification.
+
+Use the relevant official API or permitted access method.
+
+Respect authentication, source terms, copyright, privacy, and access controls.
+
+Do not bypass restrictions to increase apparent knowledge coverage.
+
+## 4.2 Knowledge update engine
+
+Implement incremental knowledge acquisition.
+
+Support:
+
+- Initial import.
+- User-triggered refresh.
+- Scheduled updates where the runtime supports scheduling.
+- Changed-record detection.
+- Content hashing.
+- Duplicate prevention.
+- Version tracking.
+- Re-indexing.
+- Deletion.
+- Failure recovery.
+- Checkpoints.
+- Source freshness indicators.
+
+Do not repeatedly download unchanged content unnecessarily.
+
+Do not claim that a schedule is active unless an actual scheduler is running.
+
+## 4.3 Knowledge provenance
+
+Every indexed record should preserve actual available provenance:
+
+- Source identifier.
+- Source URL or document reference.
+- Title.
+- Publisher or author where known.
+- Publication date where known.
+- Retrieval time.
+- Content hash.
+- Language.
+- License metadata where available.
+- Relevant page or section.
+- Parser version.
+- Processing status.
+- Update history.
+
+Distinguish retrieved facts from inferred metadata.
+
+Do not fabricate missing source details.
+
+## 4.4 Universal retrieval
+
+Improve search and RAG with appropriate combinations of:
+
+- Full-text search.
+- Keyword search.
+- Semantic retrieval.
+- Embeddings.
+- Hybrid ranking.
+- Metadata filtering.
+- Cross-language retrieval when supported.
+- Deduplication.
+- Relevance ranking.
+- Reranking where available.
+- Knowledge graph queries.
+- Citation grounding.
+- Source permission filtering.
+- Freshness filtering.
+
+Use the simplest appropriate architecture that meets the measured requirements.
+
+Do not add a vector database or graph database solely to create an advanced appearance.
+
+## 4.5 Retrieval quality evaluation
+
+Create an evaluation dataset from permitted representative queries.
+
+Where sufficient test data exists, measure:
+
+- Retrieval relevance.
+- Recall and ranking quality.
+- Source diversity.
+- Duplicate rate.
+- Citation accuracy.
+- Freshness.
+- Multilingual retrieval quality.
+- Unsupported-claim frequency.
+- Access-control correctness.
+- Latency.
+
+Do not invent scores.
+
+If no representative dataset exists, implement the test framework and mark the evaluation as not yet established.
+
+## 4.6 Unsupported and conflicting knowledge
+
+If sources disagree:
+
+1. Identify the conflict.
+2. Compare source quality.
+3. Check dates and context.
+4. Prefer relevant primary sources where appropriate.
+5. Preserve credible disagreement.
+6. Explain remaining uncertainty.
+
+Do not manufacture a unified answer when the evidence does not support one.
+
+---
+
+# PART 5 — UNIVERSAL LEARNING WITHOUT FALSE TRAINING CLAIMS
+
+Implement a strict distinction between retrieval-based knowledge and real model training.
+
+Support these distinct categories:
+
+- Temporary context.
+- Conversation history.
+- User-approved memory.
+- Persistent knowledge.
+- RAG indexing.
+- External provider inference.
+- Feedback collection.
+- Dataset preparation.
+- Fine-tuning.
+- Foundation-model training.
+
+A document added to RAG does not automatically change a model's learned parameters.
+
+A saved conversation does not automatically train a model.
+
+A changed prompt does not constitute fine-tuning.
+
+## 5.1 Feedback-driven improvement
+
+Where permitted, collect structured feedback:
+
+- Incorrect answer.
+- Missing source.
+- Poor retrieval.
+- Formatting defect.
+- Slow response.
+- Tool failure.
+- Incorrect language behavior.
+- Incomplete code change.
+- Other categorized failure.
+
+Allow users to opt out or delete feedback where the actual storage system supports it.
+
+Use feedback to prioritize bug fixes, improve retrieval, and create evaluation cases.
+
+Remove or redact unnecessary sensitive information.
+
+## 5.2 Improvement pipeline
+
+Use:
+
+`OBSERVE → CLASSIFY → VALIDATE → CREATE TEST CASE → PROPOSE CHANGE → EVALUATE → APPROVE → RELEASE → MONITOR`
+
+Compare the new behavior against a baseline.
+
+Reject changes that cause unacceptable regressions.
+
+Maintain rollback where supported.
+
+Do not allow uncontrolled production self-modification.
+
+## 5.3 Actual model training
+
+Only implement real training or fine-tuning when a compatible runtime, dataset, authorization, budget, and supported workflow exist.
+
+Require data-use and provider-policy checks.
+
+Record the actual training job, configuration, dataset version, artifact, evaluation results, and completion status where available.
+
+If training cannot run in the current environment, provide a truthful integration boundary and report `NOT_CONFIGURED`.
+
+Never simulate a training process.
+
+---
+
+# PART 6 — ADAPTIVE PERFORMANCE ENGINE
+
+Improve every important request path according to measured performance.
+
+## 6.1 Request tracing
+
+Record appropriate operational timings:
+
+- Queue wait.
+- Request validation.
+- Retrieval.
+- Provider connection.
+- Time to first token.
+- Total model latency.
+- Tool execution.
+- Output processing.
+- UI rendering.
+- Total response time.
+
+Use request and trace IDs.
+
+Do not record sensitive prompts by default.
+
+## 6.2 Efficient context management
+
+Improve context construction through:
+
+- Relevant-message selection.
+- Bounded conversation history.
+- Summarization of older content.
+- Deduplication.
+- Retrieval of relevant past context.
+- Tool-definition filtering.
+- Context-size budgeting.
+- Removal of stale intermediate tool results when safe.
+- Model-specific token limits.
+
+Do not silently discard important user requirements.
+
+Preserve enough information to complete the task correctly.
+
+## 6.3 Tool-context efficiency
+
+For a large tool registry, discover and load only the relevant tool definitions where supported.
+
+For repetitive tool-call chains, use programmatic or batched invocation where an actual compatible runtime supports it.
+
+Use provider-supported prompt caching only when it is compatible with the current API and the provider's data-use policy.
+
+Understand that prompt caching may reduce repeated processing or cost but does not remove content from a model's context window by itself.
+
+Do not enable caching where `providerTermsRegistry.ts` or user policy forbids it.
+
+## 6.4 Avoid unnecessary model calls
+
+Do not use expensive deep-reasoning, multi-agent, web-research, or multi-provider workflows for every simple task.
+
+Use progressive escalation:
+
+`FAST DIRECT ANSWER → RETRIEVAL IF NEEDED → SPECIALIZED TOOL IF NEEDED → INDEPENDENT VERIFICATION IF JUSTIFIED`
+
+This is a routing strategy, not permission to bypass required safety or authorization checks.
+
+## 6.5 Reliability
+
+Use:
+
+- Request deadlines.
+- Cancellation.
+- Bounded retries.
+- Exponential backoff with jitter for eligible failures.
+- Circuit breakers.
+- Concurrency limits.
+- Safe resource cleanup.
+- Graceful degradation.
+- Accurate 429 and 503 handling.
+
+Never create retry loops that repeatedly hit exhausted quotas.
+
+Never silently switch from a user-locked model.
+
+---
+
+# PART 7 — UNIVERSAL MULTIMODAL IMPROVEMENT
+
+Audit and improve all actual multimodal workflows.
+
+## 7.1 Images
+
+Improve:
+
+- Image uploads.
+- Image understanding.
+- Multiple-image handling.
+- Image generation.
+- Image editing.
+- Preview and export.
+- File validation.
+- Actual provider status.
+- Clear failures.
+
+## 7.2 Documents
+
+Improve:
+
+- TXT and Markdown.
+- PDF.
+- DOCX.
+- CSV.
+- JSON.
+- Supported image documents.
+- Other formats with a real parser.
+
+Preserve extraction provenance and handle malformed inputs.
+
+## 7.3 Audio and microphone
+
+Verify real microphone permissions, recording, audio processing, transcription, and cancellation.
+
+Where supported, use the actual configured Gemini transcription or live-transcription interface.
+
+Optionally support other configured STT providers.
+
+Do not fabricate recognized words when transcription fails.
+
+Preserve partial and final transcription states correctly.
+
+## 7.4 TTS
+
+Verify a genuine available speech provider.
+
+Check compatible Gemini TTS capabilities before automatically requiring an external TTS credential.
+
+Keep optional ElevenLabs integration separate.
+
+Implement correct audio decoding, playback, cancellation, and failure handling.
+
+## 7.5 Voice interaction
+
+Where supported, implement real-time audio sessions with correct WebSocket lifecycle management.
+
+Ensure that voice failure does not break ordinary chat.
+
+## 7.6 Video and other modalities
+
+Implement only supported processing and generation workflows.
+
+Do not claim real-time video analysis when the actual implementation only accepts static images.
+
+Do not claim music, video, image, or voice generation without a real provider response.
+
+---
+
+# PART 8 — SEVEN AI BRANCHES: CAPABILITY COMPLETION
+
+Audit and improve all seven branches through the central registry.
+
+### Machine Learning
+
+Add genuine data analysis, model evaluation, prediction, and training adapters where the runtime supports them.
+
+### Deep Learning
+
+Integrate real neural model services. Distinguish hosted inference from locally trained models.
+
+### Natural Language Processing
+
+Improve multilingual understanding, intent routing, entity processing, summarization, translation, and structured output.
+
+### Computer Vision
+
+Use actual compatible vision models. Separate general image understanding from specialist detection, OCR, tracking, and segmentation.
+
+### Robotics
+
+Provide only the integration or simulation interfaces supported by the actual environment. Do not claim physical device control without a real connection.
+
+### Expert Systems
+
+Use versioned, testable rules with provenance and conflict handling.
+
+### Generative AI
+
+Connect actual supported services for text, code, image, audio, and video generation.
+
+For every branch, report the exact implementation status, configuration requirements, evidence, and limitations.
+
+Do not create seven placeholder classes and claim seven completed AI systems.
+
+---
+
+# PART 9 — UNIVERSAL TOOLS AND CONTROLLED AGENTS
+
+Improve the existing agent and tool framework.
+
+Every tool needs:
+
+- Stable ID.
+- Input schema.
+- Output contract.
+- Permission requirements.
+- Risk classification.
+- Timeout.
+- Resource limits.
+- Actual execution state.
+- Error handling.
+- Audit behavior.
+
+Implement only tools that can actually be executed in the current environment.
+
+Potential integrations include:
+
+- Web search.
+- URL reading.
+- File search.
+- Code execution.
+- Repository inspection.
+- Git operations.
+- Approved external APIs.
+- Google Workspace.
+- MCP connectors.
+- Image and audio services.
+- Knowledge retrieval.
+
+The availability of a tool in one provider does not mean it exists in another provider.
+
+Validate model-proposed tool calls on the server.
+
+Never let untrusted documents or model output authorize an action.
+
+Require appropriate confirmation for consequential operations.
+
+Use bounded plans and stop conditions.
+
+Do not execute arbitrary untrusted code directly on the host.
+
+---
+
+# PART 10 — ADMINISTRATION, PERSONALIZATION, AND ACCESS CONTROL
+
+Audit and improve the current administrator and member experience.
+
+Enforce permissions on the backend.
+
+Support appropriate roles, feature permissions, user management, integration configuration, usage limits, and authorized diagnostics.
+
+Members must be limited to granted capabilities.
+
+Administrators must not automatically receive unrestricted access to every private conversation or document.
+
+Improve personalization with real saved preferences, including:
+
+- Language.
+- Theme.
+- Colors.
+- Layout.
+- Font size.
+- Background image.
+- Accessibility.
+- Chat display.
+
+Implement the background image library with actual upload, validation, preview, storage, selection, reset, and administrator-management behavior where the current environment supports it.
+
+Do not create decorative controls that do not work.
+
+---
+
+# PART 11 — AUDITABLE CONVERSATIONS AND DEVELOPMENT MEMORY
+
+Improve the existing conversation receipt and development archive system.
+
+Support actual authorized Markdown and JSON exports.
+
+Preserve:
+
+- Real conversation messages.
+- Real timestamps when available.
+- Actual provider/model information.
+- Executed tool events.
+- Source citations.
+- File changes.
+- Actual verification results.
+- Error and recovery events.
+
+Redact secrets.
+
+Distinguish actual execution events from model-proposed actions.
+
+Integrate with the existing hash-chain audit implementation without inventing an additional competing security ledger.
+
+Improve the development history archive using authorized imports from conversations, Git, test logs, and documentation.
+
+Separate:
+
+- Verified fixes.
+- Verified test outcomes.
+- Architecture decisions.
+- Proposed changes.
+- Failed approaches.
+- Unverified AI suggestions.
+
+Use this archive for selective context retrieval rather than inserting the entire history into every prompt.
+
+---
+
+# PART 12 — PROJECT SOURCE CONTEXT AND ENGINEERING WORKFLOW
+
+Improve the existing repository context builder using relevant design principles from `repogather`.
+
+Respect:
+
+- `.gitignore`.
+- Custom exclusions.
+- Secret files.
+- Relative paths.
+- File-size limits.
+- Token budgets.
+- Binary files.
+- Generated artifacts.
+- Private data.
+
+Support task-relevant context and full eligible text-source collection as separate modes.
+
+Show the actual manifest, exclusions, provider destination, and estimated size before submitting source code externally.
+
+Do not claim complete project coverage when files were omitted or inaccessible.
+
+Improve the software-development workflow using:
+
+`EXPLORE → PLAN → IMPLEMENT → VERIFY → RECORD`
+
+For important changes:
+
+- Inspect relevant files.
+- Identify root causes.
+- Define acceptance criteria.
+- Apply focused patches.
+- Update affected callers and tests.
+- Run actual checks.
+- Review the diff.
+- Record results.
+- Preserve rollback where supported.
+
+Keep project instructions concise and actionable.
+
+Use independent reviewers only where the runtime genuinely supports them and the review provides measurable value.
+
+Do not assume Claude Code commands, shell access, hooks, subagents, or local directories are automatically available in Google AI Studio.
+
+---
+
+# PART 13 — UNIVERSAL VERIFICATION AND EVALUATION
+
+Create a common evaluation framework for the entire application.
+
+Support evaluation suites for:
+
+- Chat quality.
+- Factual grounding.
+- Citation accuracy.
+- Retrieval relevance.
+- Multilingual performance.
+- Unicode handling.
+- STT accuracy.
+- TTS playback.
+- Code correctness.
+- Tool execution.
+- Model routing.
+- Permissions.
+- Data integrity.
+- Latency.
+- Cost.
+- Error recovery.
+
+Use representative test cases and measurable acceptance criteria.
+
+Where a baseline exists, compare the new implementation against it.
+
+Where no baseline exists, create an appropriate initial evaluation set and label the results accordingly.
+
+Do not make unsupported claims such as "twice as intelligent", "the world's best AI", "100% accurate", or "surpasses all competitors."
+
+If the user requests comparative superiority, evaluate specific tasks using comparable datasets, similar resource budgets, and transparent metrics.
+
+Report both improvements and regressions.
+
+Prefer measurable improvements over marketing claims.
+
+---
+
+# PART 14 — SECURITY AND GOVERNANCE
+
+Preserve and enforce the actual implementations of:
+
+- `limitsGovernor.ts`
+- `cryptoSubsystem.ts`
+- `providerTermsRegistry.ts`
+- `TrainingGate`
+- Authentication and authorization.
+- Audit policy.
+- Data retention.
+- Secret management.
+
+Do not bypass hard limits to achieve higher performance.
+
+Do not expose credentials.
+
+Do not silently store private data.
+
+Do not automatically train on user content.
+
+Do not allow an AI agent to weaken its own security policy.
+
+Do not expose secrets through telemetry, receipts, context bundles, or exported archives.
+
+Validate tool arguments, imported data, provider results, and generated structured output.
+
+Use correct authorization boundaries for user data and external integrations.
+
+---
+
+# PART 15 — IMPLEMENTATION AND VERIFICATION ORDER
+
+Execute the upgrade directly in the existing codebase.
+
+Phase 0 — Audit the application and produce a prioritized defect inventory.
+
+Phase 1 — Repair core chat, streaming, Unicode, provider errors, and latency.
+
+Phase 2 — Upgrade the capability registry, router, and shared contracts.
+
+Phase 3 — Improve Google and other configured provider integrations.
+
+Phase 4 — Improve knowledge ingestion, RAG, provenance, freshness, and retrieval.
+
+Phase 5 — Audit and improve all seven AI branches.
+
+Phase 6 — Improve real STT, TTS, image, document, and other supported modalities.
+
+Phase 7 — Improve agents, tools, context management, and development workflows.
+
+Phase 8 — Improve administration, personalization, and data permissions.
+
+Phase 9 — Improve audit receipts, source-code context, and development memory.
+
+Phase 10 — Implement evaluation suites and controlled improvement workflows.
+
+Phase 11 — Run available tests, type checks, linting, and production build.
+
+Phase 12 — Repair regressions and report actual results.
+
+Do not stop after the audit.
+
+Do not wait for optional API credentials before completing work that does not require them.
+
+Do not overwrite the project with generic code.
+
+Do not create fake success states.
+
+---
+
+# PART 16 — DEFINITION OF DONE
+
+A capability is complete only when the actual evidence supports the claim.
+
+For relevant capabilities, verify that:
+
+- The implementation exists.
+- The execution path is connected.
+- Inputs are validated.
+- Required permissions are enforced.
+- Provider compatibility is checked.
+- Errors are handled correctly.
+- Tests are executed where possible.
+- The result is represented accurately in the UI.
+- Limitations are documented.
+- Existing features still work.
+
+A passing build is not proof that all providers work.
+
+An adapter is not proof of successful integration.
+
+An indexed document is not proof of model training.
+
+A search interface is not proof that a live search occurred.
+
+A simulated tool call is not a real action.
+
+A configuration value is not proof that an external service is available.
+
+---
+
+# PART 17 — REQUIRED FINAL REPORT
+
+Report in Vietnamese:
+
+1. Actual project state.
+2. Highest-priority issues found.
+3. Files modified.
+4. Verified fixes.
+5. Capability-by-capability implementation status.
+6. Google integration status.
+7. Other configured provider status.
+8. Knowledge and retrieval improvements.
+9. Multilingual and multimodal status.
+10. Performance measurements where actually available.
+11. Test, type-check, and build results.
+12. Missing credentials and permissions.
+13. Unresolved failures.
+14. Remaining production risks.
+
+Use:
+
+`WORKING`, `PARTIAL`, `MOCK`, `NOT CONFIGURED`, `NOT TESTED`, `BLOCKED`, `FAILED`.
+
+Do not mark a feature working merely because code was generated.
+
+Do not fabricate test results, benchmark results, data coverage, source citations, or integrations.
+
+---
+
+# FINAL EXECUTION COMMAND
+
+Upgrade the current NDAWG PRO — APEX INFINITY project using V14.
+
+Inspect every relevant existing subsystem and improve its real implementation, not merely its documentation or interface.
+
+Make the platform more capable by improving its knowledge access, tool selection, retrieval quality, multimodal support, response latency, security, user experience, and development reliability.
+
+Use current official provider documentation. Discover available capabilities dynamically where supported. Preserve user preferences and privacy. Apply evidence-based evaluation. Keep the system extensible without pretending that every service is available.
+
+Implement the safest high-value improvements first, then continue with the remaining independent work.
+
+Run the actual checks available in the current environment.
+
+Repair regressions.
+
+Return a truthful evidence-based report.
+
+**The objective is continuous, measurable improvement across the whole AI platform—not a claim of perfection without proof.**

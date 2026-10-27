@@ -1,0 +1,111 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Default-Deny Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Entity validation helpers
+    function isValidUserProfile(data, expectedUid) {
+      return data.keys().hasAll(['uid', 'email'])
+        && data.keys().hasOnly(['uid', 'displayName', 'email', 'role', 'createdAt', 'updatedAt'])
+        && data.uid is string && data.uid == expectedUid && data.uid == request.auth.uid
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 150
+        && (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100))
+        && (!('role' in data) || (data.role in ['user', 'developer', 'admin']));
+    }
+
+    function isValidWorkspaceSync(data, expectedUserId) {
+      return data.keys().hasAll(['id', 'userId', 'service', 'resourceId', 'title'])
+        && data.keys().hasOnly(['id', 'userId', 'service', 'resourceId', 'title', 'status', 'lastSyncedAt'])
+        && isValidId(data.id)
+        && data.userId is string && data.userId == expectedUserId && data.userId == request.auth.uid
+        && data.service in ['tasks', 'drive', 'chat']
+        && data.resourceId is string && data.resourceId.size() > 0 && data.resourceId.size() <= 256
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 256
+        && (!('status' in data) || (data.status is string && data.status.size() <= 64));
+    }
+
+    function isValidAuditEntry(data, expectedUserId) {
+      return data.keys().hasAll(['id', 'userId', 'action', 'timestamp'])
+        && data.keys().hasOnly(['id', 'userId', 'action', 'details', 'timestamp'])
+        && isValidId(data.id)
+        && data.userId is string && data.userId == expectedUserId && data.userId == request.auth.uid
+        && data.action is string && data.action.size() > 0 && data.action.size() <= 128
+        && (!('details' in data) || (data.details is string && data.details.size() <= 1024));
+    }
+
+    // User Profile matching
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow list: if false; // User profiles cannot be bulk enumerated
+      
+      allow create: if isOwner(userId)
+        && isValidId(userId)
+        && isValidUserProfile(incoming(), userId);
+
+      allow update: if isOwner(userId)
+        && isValidId(userId)
+        && isValidUserProfile(incoming(), userId)
+        && incoming().uid == existing().uid
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'updatedAt', 'role']);
+
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      // Workspace synchronized items (Tasks, Drive files, Chat spaces)
+      match /workspaceSync/{itemId} {
+        allow get: if isOwner(userId) && isValidId(itemId);
+        allow list: if isOwner(userId);
+        
+        allow create: if isOwner(userId)
+          && isValidId(itemId)
+          && isValidWorkspaceSync(incoming(), userId);
+
+        allow update: if isOwner(userId)
+          && isValidId(itemId)
+          && isValidWorkspaceSync(incoming(), userId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'status', 'lastSyncedAt']);
+
+        allow delete: if isOwner(userId) && isValidId(itemId);
+      }
+
+      // Cryptographic / Operational Audit log entries (Append-only)
+      match /audits/{auditId} {
+        allow get: if isOwner(userId) && isValidId(auditId);
+        allow list: if isOwner(userId);
+        
+        allow create: if isOwner(userId)
+          && isValidId(auditId)
+          && isValidAuditEntry(incoming(), userId);
+
+        // Audit logs are tamper-proof and immutable
+        allow update: if false;
+        allow delete: if false;
+      }
+    }
+  }
+}

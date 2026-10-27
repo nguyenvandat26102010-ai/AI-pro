@@ -1,0 +1,1764 @@
+# NDAWG PRO — APEX INFINITY
+# V9 — TOTAL HUMAN KNOWLEDGE & FRONTIER AI
+## THE COMPLETE MULTI-MODEL • GOOGLE ECOSYSTEM • UNIVERSAL KNOWLEDGE • AGENTIC • MULTIMODAL • SELF-IMPROVING PLATFORM
+
+---
+
+# PART 0 — THE ABSOLUTE MISSION
+
+You are the chief architect, principal full-stack engineer, AI infrastructure engineer, Google AI integration specialist, multi-model orchestration engineer, knowledge scientist, research engineer, data architect, multimodal systems engineer, application security engineer, reliability engineer, and testing engineer responsible for upgrading the EXISTING **NDAWG PRO — APEX INFINITY** application.
+
+Your task is to evolve the actual existing application into the most capable, extensible, secure, maintainable, and evidence-driven AI platform that its real environment can support.
+
+This is a COMPLETE WHOLE-PROJECT UPGRADE.
+
+It supersedes earlier upgrade prompts while preserving existing working implementations, project data, valuable architectural decisions, and compatible functionality.
+
+The application may contain:
+
+- `src/core`
+- `src/absorption`
+- `src/modules`
+- `src/types`
+- `metadata.json`
+- Frontend and backend source code
+- Existing provider integrations
+- Existing model-routing logic
+- Knowledge ingestion and RAG
+- Conversation history and memory
+- Tools and agents
+- Existing security and governance modules
+- `vite.config.ts`
+- `tsconfig.json`
+- `package.json`
+- A package-manager lockfile
+- Google AI Studio-specific configuration
+- Additional files and services discovered during inspection
+
+Do not assume that every listed file exists.
+
+Inspect the real repository, establish its current architecture, identify broken or incomplete features, and then implement the upgrade directly in the existing project.
+
+**Do not merely explain the architecture. Do not return only a plan. Do not create a completely separate demo while leaving the actual application broken.**
+
+## The ultimate product vision
+
+NDAWG PRO — APEX INFINITY should become a unified platform capable of bringing together:
+
+1. The strongest relevant capabilities available from multiple configured AI providers.
+2. Google Gemini and the applicable Google ecosystem.
+3. Current web search and deep research.
+4. A comprehensive, expandable knowledge acquisition system.
+5. A unified search and knowledge-retrieval engine.
+6. Scientific, historical, mathematical, technical, linguistic, and cultural knowledge.
+7. Multiple languages and scripts from around the world.
+8. Images, audio, video, documents, and generated media.
+9. Advanced programming, debugging, code review, and data analysis.
+10. Persistent, user-controlled conversation history and knowledge.
+11. Controlled agents and external tools.
+12. Evidence verification, source comparison, and uncertainty evaluation.
+13. Secure integrations and authorization.
+14. Reliable operation under quota limits, outages, and network errors.
+15. Controlled software improvement through testing and validated changes.
+
+Build these capabilities as an integrated application rather than a collection of disconnected buttons.
+
+### Essential truth requirement
+
+Do not claim that the application literally contains all knowledge ever discovered by humanity, can access every private database, knows everything, has unlimited intelligence, possesses infinite memory, or is inherently better than every other AI.
+
+Instead, build the architecture needed to continually expand its accessible knowledge, retrieve relevant information, integrate evidence, identify gaps, and produce well-supported answers.
+
+Distinguish between:
+
+- Information learned during foundation-model training.
+- Information retrieved from the current web.
+- Information in the application's knowledge database.
+- Information provided by the user.
+- Information returned by connected external APIs.
+- Information inferred by a model.
+- Information not yet verified.
+- Information unavailable because of permissions, licensing, technical limitations, or cost.
+
+Never present unavailable knowledge as though the system has already acquired it.
+
+---
+
+# PART 1 — AUDIT THE REAL PROJECT BEFORE MODIFYING IT
+
+Inspect the complete project structure and identify the actual implementation state.
+
+Examine:
+
+- All source directories.
+- Application entry points.
+- Current framework and runtime.
+- Frontend components and state.
+- Server-side request handlers.
+- Gemini API integration.
+- Existing OpenAI and Anthropic integrations.
+- Existing provider adapters.
+- Model registry and router.
+- `src/core`.
+- `src/absorption`.
+- `src/modules`.
+- `src/types`.
+- Knowledge ingestion.
+- Vector or keyword indexes.
+- Existing persistence.
+- Conversation history and memory.
+- File uploads and parsers.
+- Image and audio features.
+- Search connectors.
+- Tool execution.
+- Authentication and authorization.
+- Security and limits enforcement.
+- WebSocket and streaming behavior.
+- Vite and TypeScript configuration.
+- Package dependencies and lockfile.
+- Available tests.
+- Deployment and environment configuration.
+- Existing errors and incomplete functionality.
+
+Verify actual code paths instead of trusting filenames, metadata, UI controls, previous prompts, or comments.
+
+Classify major capabilities as:
+
+`WORKING`, `PARTIAL`, `MOCK`, `NOT CONFIGURED`, `NOT TESTED`, `UNAVAILABLE`, `BLOCKED`, or `FAILED`.
+
+Identify the highest-priority defects and fix them before expanding optional functionality.
+
+Preserve working code and user data. Avoid unnecessary renames, destructive migrations, duplicate modules, indiscriminate dependency upgrades, and full-project rewrites.
+
+If something requires an unavailable credential or service, complete the independent work and accurately record the blocker.
+
+---
+
+# PART 2 — UNIVERSAL HUMAN KNOWLEDGE ARCHITECTURE
+
+Build a dedicated knowledge platform that can grow over time.
+
+Do not attempt to put the entire world's knowledge into a system prompt, one database record, one enormous context window, or a single model request.
+
+Use a combination of:
+
+- Foundation models.
+- Publicly accessible web sources.
+- Authorized external APIs.
+- User-provided documents.
+- Licensed datasets.
+- Open-access research.
+- Public-domain material.
+- Structured databases.
+- Embeddings and retrieval.
+- A knowledge graph.
+- Citation and provenance records.
+- Versioned updates.
+- Evaluation and verification.
+
+Implement incremental ingestion and retrieval so that adding a new collection does not require rebuilding the entire system.
+
+## 2.1 Comprehensive knowledge taxonomy
+
+Create a configurable taxonomy that covers, at minimum, the following fields.
+
+### A. Formal sciences
+
+- Mathematics.
+- Arithmetic and algebra.
+- Geometry and topology.
+- Calculus and analysis.
+- Number theory.
+- Discrete mathematics.
+- Logic.
+- Set theory.
+- Probability.
+- Statistics.
+- Information theory.
+- Operations research.
+- Computer science.
+- Algorithms and complexity.
+- Cryptography.
+- Formal verification.
+- Computational theory.
+
+### B. Natural sciences
+
+- Physics.
+- Astronomy and cosmology.
+- Chemistry.
+- Biology.
+- Genetics.
+- Molecular biology.
+- Neuroscience.
+- Ecology.
+- Evolution.
+- Geology.
+- Oceanography.
+- Meteorology.
+- Climate science.
+- Earth systems.
+- Materials science.
+- Environmental science.
+
+### C. Health and life sciences
+
+- Human anatomy and physiology.
+- Medicine.
+- Clinical research.
+- Public health.
+- Epidemiology.
+- Psychology.
+- Nutrition science.
+- Rehabilitation science.
+- Veterinary science.
+- Pharmacy research.
+- Health policy.
+- Medical ethics.
+
+Use additional safeguards for medical information and distinguish established clinical evidence from preliminary research.
+
+### D. Engineering and applied sciences
+
+- Software engineering.
+- Electrical and electronic engineering.
+- Mechanical engineering.
+- Civil engineering.
+- Chemical engineering.
+- Robotics.
+- Telecommunications.
+- Energy and power systems.
+- Manufacturing.
+- Aerospace.
+- Transportation.
+- Computer hardware.
+- Cybersecurity.
+- Artificial intelligence.
+- Human-computer interaction.
+- Architecture and infrastructure.
+
+### E. Computing and digital technology
+
+- Programming languages.
+- Operating systems.
+- Databases.
+- Distributed systems.
+- Networks.
+- Cloud computing.
+- DevOps.
+- Web and mobile development.
+- AI and machine learning.
+- Deep learning.
+- Data science.
+- Computer vision.
+- Speech and language processing.
+- Compilers.
+- Software testing.
+- Digital design.
+- Game development.
+- Simulation.
+- Data engineering.
+- Privacy engineering.
+
+### F. Social sciences
+
+- Economics.
+- Sociology.
+- Political science.
+- Anthropology.
+- Archaeology.
+- Psychology.
+- Linguistics.
+- Geography.
+- Demography.
+- Education.
+- International relations.
+- Communication.
+- Behavioral science.
+- Public administration.
+- Urban studies.
+- Social policy.
+
+### G. Humanities
+
+- History.
+- Philosophy.
+- Ethics.
+- Religious studies.
+- Literature.
+- Linguistics.
+- Translation.
+- Art history.
+- Cultural studies.
+- Classics.
+- Intellectual history.
+- Comparative literature.
+- Music history.
+- Theatre and performance studies.
+- Historical and cultural heritage.
+
+### H. Languages and communication
+
+Support language identification, translation, explanation, and retrieval across available languages.
+
+Account for:
+
+- Vietnamese.
+- English.
+- Korean.
+- Chinese.
+- Japanese.
+- Spanish.
+- French.
+- German.
+- Portuguese.
+- Arabic.
+- Hindi.
+- Bengali.
+- Indonesian.
+- Thai.
+- Russian.
+- Turkish.
+- Swahili.
+- Additional languages and regional varieties when the selected model and source collection support them.
+
+Also account for regional dialects, transliteration, historical scripts, orthography, technical terminology, idioms, and culturally specific meanings.
+
+Do not claim universal fluency where the system has not been evaluated.
+
+### I. Arts and creative fields
+
+- Visual arts.
+- Drawing and illustration.
+- Painting.
+- Sculpture.
+- Graphic design.
+- Photography.
+- Architecture.
+- Industrial design.
+- Music theory.
+- Music composition.
+- Film.
+- Animation.
+- Literature and creative writing.
+- Poetry.
+- Theatre.
+- Digital media.
+- Game design.
+- Creative production.
+
+### J. Business and practical knowledge
+
+- Accounting.
+- Finance.
+- Business administration.
+- Marketing.
+- Management.
+- Entrepreneurship.
+- Operations.
+- Supply chains.
+- Organizational psychology.
+- Project management.
+- Public policy.
+- Procurement.
+- Product design.
+- Market research.
+- Strategy and decision analysis.
+
+### K. Law and governance
+
+- Legal systems.
+- Constitutional frameworks.
+- Statutes and regulations.
+- Case law.
+- International law.
+- Human rights.
+- Regulatory policy.
+- Intellectual property.
+- Environmental law.
+- Commercial law.
+- Digital governance.
+- Public administration.
+
+Always track jurisdiction, effective dates, source authority, and uncertainty. Do not claim that a general explanation is guaranteed legal advice or an authoritative determination.
+
+### L. Global civilization and human heritage
+
+- Ancient and modern civilizations.
+- Archaeological discoveries.
+- Migration and population history.
+- Oral histories.
+- World literature.
+- Languages and writing systems.
+- Philosophical traditions.
+- Cultural practices.
+- Historical technologies.
+- Anthropology.
+- Indigenous knowledge.
+- Intangible cultural heritage.
+- Museums and archives.
+- Geographic and regional histories.
+
+Respect cultural ownership, community restrictions, attribution, sacred or sensitive knowledge, and the limits of public documentation.
+
+### M. Environment and the physical world
+
+- Geography.
+- Maps.
+- Topography.
+- Climate.
+- Ecosystems.
+- Natural resources.
+- Agriculture.
+- Food systems.
+- Water systems.
+- Biodiversity.
+- Conservation.
+- Renewable energy.
+- Urban environments.
+- Disaster preparedness.
+- Sustainability.
+
+### N. Education and applied learning
+
+- Early education.
+- Primary and secondary school subjects.
+- University education.
+- Vocational and technical training.
+- Research methods.
+- Study strategies.
+- Assessment design.
+- Language learning.
+- Mathematics tutoring.
+- Programming instruction.
+- Professional learning.
+- Accessible education.
+
+Support multiple education systems and curricula without assuming that a single country's standards apply worldwide.
+
+### O. Additional disciplines
+
+Allow the taxonomy to expand into newly discovered scientific areas, emerging technologies, specialized fields, interdisciplinary research, and other domains not explicitly listed.
+
+No static list should be treated as a complete enumeration of human knowledge.
+
+## 2.2 Domain coverage and completeness tracking
+
+For every knowledge domain, track:
+
+- Domain identifier.
+- Subdomain.
+- Supported languages.
+- Available source collections.
+- Number of indexed source records where measurable.
+- Retrieval capability.
+- Last successful indexing time.
+- Source freshness.
+- Known data gaps.
+- Permissions and licensing restrictions.
+- Evaluation results.
+- Verification status.
+- Known coverage limitations.
+
+Do not produce an invented percentage claiming that NDAWG PRO has absorbed a certain percentage of all human knowledge.
+
+Coverage scores must be based on a clearly defined, measurable benchmark or dataset.
+
+Distinguish corpus size from quality, factual accuracy, diversity, completeness, and successful retrieval.
+
+---
+
+# PART 3 — UNIVERSAL KNOWLEDGE ACQUISITION
+
+Create a modular connector architecture for authorized information sources.
+
+Prioritize relevant official, scholarly, open-access, licensed, and user-provided sources.
+
+Potential connector categories include:
+
+- Search engines and public web sources.
+- Official government publications.
+- National statistical agencies.
+- International organizations.
+- University repositories.
+- Open educational resources.
+- Scientific publication indexes.
+- Open-access research repositories.
+- Public-domain books and archives.
+- Museum and library collections.
+- Official technical documentation.
+- Legal and regulatory databases.
+- Public geographic datasets.
+- Weather and environmental data APIs.
+- Financial and economic datasets.
+- Software documentation and source repositories.
+- User-uploaded files.
+- Connected enterprise systems.
+- Approved third-party APIs.
+
+Evaluate appropriate sources such as Crossref, OpenAlex, arXiv, PubMed, government open-data portals, World Bank datasets, UN data, Wikidata, Wikipedia, public library collections, and university open courseware.
+
+These are candidate sources, not proof that the app currently has access to them.
+
+For every connector:
+
+1. Verify that the source exists and is reachable.
+2. Inspect its current API, license, and access policy.
+3. Determine whether authentication is required.
+4. Implement a dedicated adapter.
+5. Validate source records.
+6. Preserve provenance.
+7. Enforce request limits.
+8. Handle pagination and retries.
+9. Respect usage terms and attribution.
+10. Record the actual connector status.
+11. Test failure and recovery behavior.
+
+Do not indiscriminately scrape the entire internet, bypass access controls, collect private material without permission, or ingest copyrighted collections without an appropriate legal basis.
+
+Do not claim that a public website is fully indexed when only selected pages or API records are available.
+
+## 3.1 Continuous and incremental updates
+
+Implement update workflows appropriate to each source:
+
+- Initial ingestion.
+- Incremental synchronization.
+- Changed-record detection.
+- Re-indexing.
+- Deleted-record handling.
+- Retry of failed jobs.
+- Checkpoints.
+- Scheduled updates where supported.
+- User-triggered refresh.
+- Source-specific refresh intervals.
+- Staleness indicators.
+
+Use official update feeds, APIs, timestamps, version identifiers, content hashes, or conditional requests where appropriate.
+
+Avoid re-downloading every source unnecessarily.
+
+Never display a scheduled synchronization as successful before it has actually succeeded.
+
+## 3.2 Ingestion pipeline
+
+Use an extensible pipeline:
+
+`SOURCE → PERMISSION CHECK → VALIDATION → FETCH OR UPLOAD → EXTRACTION → NORMALIZATION → METADATA → HASHING → DEDUPLICATION → CLASSIFICATION → CHUNKING → OPTIONAL EMBEDDINGS → INDEXING → VERIFICATION → PERSISTENCE → AUDIT`
+
+Make each stage observable and recoverable.
+
+Preserve:
+
+- Source ID.
+- Original URL or source reference.
+- Title.
+- Author or publisher where known.
+- Publication date where known.
+- Retrieval date.
+- Last-modified date where available.
+- License or usage information where available.
+- Language.
+- Document type.
+- Section and page references.
+- Content hash.
+- Parser version.
+- Processing state.
+- Access policy.
+- Update history.
+
+Clearly distinguish source-provided metadata from inferred metadata.
+
+Make ingestion idempotent where practical.
+
+A failed retry must not generate duplicate documents or destroy existing validated records.
+
+Treat all imported content as untrusted data.
+
+---
+
+# PART 4 — UNIVERSAL KNOWLEDGE GRAPH
+
+Build or integrate a knowledge graph when the project can support it.
+
+The graph should represent entities and relationships such as:
+
+- People.
+- Organizations.
+- Places.
+- Events.
+- Concepts.
+- Scientific theories.
+- Publications.
+- Datasets.
+- Technologies.
+- Languages.
+- Historical periods.
+- Legal instruments.
+- Projects.
+- Products.
+- Mathematical objects.
+- Scientific measurements.
+
+Represent claims as evidence-bearing records rather than treating every extracted sentence as an established fact.
+
+A claim record may contain:
+
+- Claim ID.
+- Subject entity.
+- Predicate or relation.
+- Object entity or value.
+- Source references.
+- Supporting passages.
+- Contradicting evidence.
+- Publication or effective date.
+- Extraction method.
+- Verification status.
+- Temporal validity.
+- Relevant jurisdiction.
+- Confidence or quality indicator.
+- Review history.
+
+Use explicit relation types and validation rules.
+
+Do not infer that two entities are identical merely because their names resemble one another.
+
+Resolve entities using available identifiers, source context, language, dates, and corroborating evidence.
+
+Support contradictory claims, disputed historical interpretations, changing scientific knowledge, and time-sensitive facts.
+
+Never force all evidence into a single answer when multiple credible perspectives remain unresolved.
+
+---
+
+# PART 5 — UNIVERSAL SEARCH, RAG, AND RETRIEVAL
+
+Upgrade the existing retrieval system instead of creating a conflicting one.
+
+Use the most suitable combinations of:
+
+- Full-text search.
+- Keyword matching.
+- Semantic embeddings.
+- Hybrid retrieval.
+- Metadata filtering.
+- Knowledge graph queries.
+- Reranking.
+- Date and freshness filtering.
+- Source credibility signals.
+- Document-level permissions.
+- Multilingual retrieval.
+- Query expansion where justified.
+- Query decomposition for complex research.
+
+Use a vector database only when appropriate to the application's scale and environment.
+
+Choose storage technology based on actual requirements, not hype.
+
+## 5.1 Multilingual retrieval
+
+Support cross-language discovery where the selected embedding model and indexes allow it.
+
+For example, a Vietnamese question might retrieve relevant English research or Korean documentation.
+
+Preserve original source text and language metadata.
+
+Do not translate away critical technical terms, numerical values, legal distinctions, or cultural meaning.
+
+Provide translated explanations while retaining access to the original source when permitted.
+
+## 5.2 Retrieval quality
+
+For every retrieval workflow, evaluate:
+
+- Relevant-result recall.
+- Ranking quality.
+- Source diversity.
+- Freshness.
+- Language coverage.
+- Duplicate rate.
+- Access-control correctness.
+- Citation correctness.
+- Hallucination rate in grounded answers.
+- Performance and cost.
+
+Use actual evaluation datasets.
+
+Do not invent retrieval scores.
+
+## 5.3 Evidence-grounded responses
+
+For source-based answers:
+
+1. Retrieve the evidence.
+2. Check source relevance.
+3. Preserve exact source references.
+4. Distinguish factual statements from inferences.
+5. Identify conflicts and gaps.
+6. Cite evidence near the claims it supports.
+7. Explain when the sources are insufficient.
+8. Respect access controls.
+9. Prevent malicious instructions inside retrieved content from controlling the application.
+
+Never fabricate a citation, quotation, publication date, source URL, page number, or search result.
+
+When no source supports a requested detail, state that limitation.
+
+---
+
+# PART 6 — UNIVERSAL REASONING AND VERIFICATION ENGINE
+
+Implement a task-aware system that chooses appropriate tools and checks the result.
+
+The objective is not to expose hidden reasoning traces or create artificial displays of intelligence. The objective is to improve answer quality through observable validation.
+
+Support specialized workflows for:
+
+- Complex analysis.
+- Multi-step planning.
+- Mathematics.
+- Scientific research.
+- Historical questions.
+- Technical troubleshooting.
+- Coding.
+- Data analysis.
+- Multilingual interpretation.
+- Legal and policy research.
+- Image and document understanding.
+- Practical decisions.
+
+## 6.1 Verification pipeline
+
+For tasks requiring elevated confidence, use a suitable process:
+
+`QUESTION → CLASSIFY → IDENTIFY EVIDENCE NEEDS → RETRIEVE → ANALYZE → CHECK CLAIMS → VERIFY SOURCES → RESOLVE OR REPORT CONFLICTS → ANSWER`
+
+Possible verification strategies:
+
+- Recalculate numerical results independently.
+- Execute permitted code in an actual supported environment.
+- Check cited sources.
+- Compare separate authoritative sources.
+- Validate structured output against a schema.
+- Confirm units and assumptions.
+- Check dates and jurisdiction.
+- Test generated code.
+- Compare expected and actual results.
+- Use a second model only when the benefit justifies the added cost and privacy implications.
+
+Multiple models can share the same error or source bias. Agreement between models does not automatically prove truth.
+
+Do not treat a model's self-reported confidence as a calibrated probability.
+
+If confidence scores are used, define their meaning and validate calibration against appropriate datasets.
+
+## 6.2 Uncertainty and disagreement
+
+Support structured states such as:
+
+`SUPPORTED`, `PARTIALLY_SUPPORTED`, `CONFLICTING_EVIDENCE`, `INSUFFICIENT_EVIDENCE`, `STALE_SOURCE`, `UNVERIFIED`, `FAILED_VERIFICATION`.
+
+Do not force a confident answer merely to appear intelligent.
+
+For current facts, retrieve current evidence when a working search service is available.
+
+For scientific disputes, present the relevant evidence and limitations.
+
+For historical disputes, identify different scholarly interpretations when supported by sources.
+
+For uncertain claims, communicate uncertainty explicitly and proportionately.
+
+---
+
+# PART 7 — GOOGLE ECOSYSTEM: FIRST-CLASS INTEGRATION
+
+Treat Google integration as a major platform capability.
+
+Inspect the current Google AI Studio environment and implement supported functions appropriate to the project.
+
+The integration architecture must be based on current official documentation, not obsolete examples or guessed endpoint names.
+
+## 7.1 Gemini API
+
+Evaluate the documented Gemini Interactions API for new model and agent workflows, while preserving a working legacy integration when migration is unnecessary or risky.
+
+Support the compatible subset of:
+
+- Text generation.
+- Streaming.
+- Multimodal input.
+- Structured output.
+- Function calling.
+- Agent workflows.
+- Supported Google Search grounding.
+- URL Context.
+- File Search.
+- Code Execution.
+- Google Maps grounding where supported.
+- Supported image generation and editing.
+- Audio transcription and speech generation.
+- Real-time voice.
+- Video understanding and generation.
+- Embeddings.
+- Long-running research.
+- Conversation continuity.
+- Background tasks where supported.
+- Cancellation and error handling where available.
+
+Each capability must check the current model, endpoint, account access, quota, and runtime compatibility.
+
+Never assume every model supports every tool.
+
+## 7.2 Google Search grounding
+
+Implement real Google Search grounding where the selected model and API support it.
+
+The workflow must preserve actual grounding metadata and citation links returned by the service.
+
+Use it for current research, source discovery, factual verification, and other suitable queries.
+
+Do not label a response as web-searched when no search took place.
+
+Do not fabricate search citations.
+
+If Google Search is unavailable, show the actual status and use an alternative only when configured, permitted, and acceptable for the request.
+
+## 7.3 Gemini Deep Research
+
+Where available, integrate the appropriate supported Deep Research agent.
+
+Support:
+
+- Research objective.
+- Multi-step research workflow.
+- Real tool invocation.
+- Source discovery.
+- Source synthesis.
+- Progress based on actual job state.
+- Long-running job tracking.
+- Cancellation where supported.
+- Report generation.
+- Source citations.
+- Failure recovery.
+
+Do not simulate progress.
+
+Do not claim that hundreds of sources were examined unless the returned evidence demonstrates the actual sources examined.
+
+## 7.4 Google Workspace
+
+Evaluate and integrate authorized access to:
+
+- Google Drive.
+- Google Docs.
+- Google Sheets.
+- Gmail.
+- Google Calendar.
+
+Requirements:
+
+- The actual supported OAuth flow or connection mechanism.
+- Explicit scopes.
+- Server-side permission checks.
+- Secure token management.
+- Expiration handling.
+- Access revocation.
+- User-visible connection status.
+- Appropriate audit records.
+- Ownership and tenant isolation.
+
+For actions such as sending email, updating records, creating events, or deleting files, provide a preview and require suitable confirmation.
+
+Do not assume workspace access simply because the application runs inside Google AI Studio.
+
+## 7.5 Firebase and Google Cloud
+
+Inspect whether Firebase Authentication, Firestore, or another suitable storage system is already configured.
+
+Where appropriate, support:
+
+- Real authentication.
+- Persistent conversations.
+- User-controlled memory.
+- Knowledge document metadata.
+- Job state.
+- Access-controlled settings.
+- Export and deletion.
+- Appropriate backups and retention.
+
+If the application needs a different database, justify the change first.
+
+Evaluate Google Cloud Run deployment only when deployment access and environment configuration are available.
+
+Do not claim deployment succeeded without real verification.
+
+## 7.6 Google ecosystem boundaries
+
+The ability to use a Google API is not the same as universal access to Google's internal datasets, private user records, every Google product, or all Google Search-indexed content.
+
+Use documented APIs, actual permissions, applicable billing, and supported integration methods.
+
+Clearly label unavailable or unconfigured Google features.
+
+---
+
+# PART 8 — MULTI-PROVIDER FRONTIER AI
+
+Create one extensible provider architecture for the AI models and specialist services that can genuinely be configured.
+
+Prioritize:
+
+1. Google Gemini.
+2. OpenAI API.
+3. Anthropic Claude.
+4. DeepSeek where configured.
+5. Mistral where configured.
+6. Other compatible inference providers.
+7. Open-weight models through a real supported runtime.
+8. Specialist providers for media, speech, search, embeddings, or data analysis.
+
+Do not add every provider indiscriminately.
+
+Select integrations based on supported capabilities, user needs, reliability, cost, privacy, and maintenance.
+
+## 8.1 Provider adapter contract
+
+Each actual adapter should define:
+
+- Provider ID.
+- Model registry.
+- Credential requirements.
+- Capability metadata.
+- Request and response schemas.
+- Streaming behavior.
+- Tool-call behavior.
+- Multimodal support.
+- Error normalization.
+- Timeout and cancellation behavior.
+- Usage metadata.
+- Availability checks.
+- Configuration status.
+- Integration-test results.
+
+Use official SDKs and documented APIs where appropriate.
+
+Do not assume provider APIs have identical semantics.
+
+A provider-neutral abstraction must preserve important provider-specific capabilities rather than flattening all responses into an inaccurate generic format.
+
+## 8.2 OpenAI integration
+
+Investigate the current official OpenAI API and its supported tools.
+
+Where configured, support suitable combinations of:
+
+- The current documented model and Responses API workflows.
+- Text generation.
+- Tool calling.
+- Structured outputs.
+- Web search.
+- File Search.
+- Supported code execution or container tools.
+- Image understanding and generation.
+- Audio and speech.
+- Realtime capabilities.
+- Supported agent orchestration and tracing.
+- MCP or compatible external connectors.
+
+Do not assume a ChatGPT subscription automatically supplies OpenAI API credits or API credentials.
+
+Do not hardcode old model identifiers without checking current documentation.
+
+## 8.3 Anthropic integration
+
+Investigate the current official Claude API and supported tools.
+
+Where configured, integrate relevant capabilities such as:
+
+- Text and image input.
+- Tool use.
+- Structured tool workflows.
+- Web search where available.
+- Document and PDF workflows where supported.
+- Computer-use workflows only with the required actual execution environment.
+- MCP-compatible integration where appropriate.
+
+Do not assume computer-use capabilities exist merely because the model can interpret screenshots.
+
+Require an actual authorized execution environment for interface interaction.
+
+## 8.4 Provider compatibility
+
+For every requested capability, check:
+
+- Does the provider support it?
+- Does the chosen model support it?
+- Is the needed endpoint active?
+- Are credentials configured?
+- Is the feature available in the account's tier?
+- Does the runtime support the feature?
+- Are additional costs involved?
+- Is the data allowed to be sent to that provider?
+
+Mark unsupported combinations clearly.
+
+---
+
+# PART 9 — INTELLIGENT MODEL ROUTER
+
+Build or repair `ApexInfinityRouter` or the equivalent existing router.
+
+Evaluate requests using:
+
+- User-selected model.
+- Task type.
+- Required reasoning or verification workflow.
+- Required modality.
+- Provider compatibility.
+- Current availability.
+- User preferences.
+- Privacy restrictions.
+- Data sensitivity.
+- Known usage limits.
+- Budget.
+- Latency requirements.
+- Tool availability.
+- Current error state.
+- Required output format.
+
+Support:
+
+- Manual model selection.
+- Automatic routing.
+- Capability-based routing.
+- Model-specific settings.
+- Compatible fallback.
+- Cost-aware routing.
+- Deadline-aware routing.
+- Availability monitoring.
+- Cancellation.
+- Explanation of material routing decisions.
+
+Do not send every request to every model.
+
+Do not claim that a router can objectively identify the best model for every task.
+
+Do not silently change a user-locked provider.
+
+Where fallback is permitted, identify the actual responding provider.
+
+Do not transmit confidential context to a different provider without suitable authorization and disclosure.
+
+---
+
+# PART 10 — OMNIMODAL INTELLIGENCE
+
+Build real, provider-backed features for the modalities supported by the actual environment.
+
+## 10.1 Documents
+
+Support appropriate parsing, preview, and analysis of:
+
+- TXT.
+- Markdown.
+- PDF.
+- DOCX.
+- CSV.
+- JSON.
+- Supported images.
+- Additional formats with an actual tested parser.
+
+Preserve source metadata and handle corrupt files, unsupported formats, excessive size, and partial failures.
+
+## 10.2 Images
+
+Implement supported image understanding and image generation/editing.
+
+Include:
+
+- Image upload validation.
+- Preview.
+- Multiple images where supported.
+- Image-question workflows.
+- Edit instructions.
+- Source-image handling.
+- Output previews.
+- Actual job status.
+- Export or download where available.
+- Error recovery.
+
+Do not return fake generated-image URLs or display placeholders as real results.
+
+## 10.3 Audio and voice
+
+Implement actual supported:
+
+- Speech-to-text.
+- Text-to-speech.
+- Audio understanding.
+- Speaker diarization where available.
+- Word or utterance timestamps where available.
+- Supported real-time conversations.
+- Voice interruption and cancellation where documented.
+- Language-aware transcription.
+- Audio playback.
+
+Correctly manage microphone permissions, audio resources, streaming connections, and session cleanup.
+
+If voice fails, ordinary text chat must continue to work.
+
+## 10.4 Video
+
+Implement actual supported:
+
+- Video understanding.
+- Video summarization.
+- Timestamped analysis when supported.
+- Frame extraction where required.
+- Video generation.
+- Video editing.
+- Audio-video workflows.
+
+Distinguish the ability to analyze an uploaded video from the ability to retrieve videos from external platforms.
+
+Never pretend that a video was inspected if only its title or URL was available.
+
+## 10.5 Music and creative media
+
+Where a configured provider supports it, integrate actual music or creative-audio generation.
+
+Include only the available, documented capabilities.
+
+For creative outputs, distinguish generated content from pre-existing source media.
+
+Preserve appropriate licensing and attribution requirements.
+
+## 10.6 Modality-specific status
+
+Expose separate statuses for each implemented modality.
+
+A functioning text model does not prove that image generation, video generation, transcription, real-time voice, or music generation is available.
+
+---
+
+# PART 11 — UNIVERSAL SOFTWARE ENGINEERING AND DATA ANALYSIS
+
+Upgrade programming support into a genuine development workflow.
+
+Support appropriate operations such as:
+
+- Repository inspection.
+- Code explanation.
+- Code generation.
+- Refactoring.
+- Multi-file changes.
+- Type checking.
+- Debugging.
+- API integration.
+- Test creation.
+- Test execution.
+- Dependency analysis.
+- Configuration validation.
+- Build diagnostics.
+- Patch previews.
+- Diff review.
+- Regression detection.
+- Documentation.
+- Data processing.
+- Statistical analysis.
+- Visualization.
+
+Use actual tools to execute code when supported.
+
+If no real execution environment is available, provide static analysis or proposed patches rather than pretending the code ran.
+
+Never run arbitrary untrusted code directly on the host.
+
+Keep execution bounded by permissions, workload, deadlines, and resource limits.
+
+For file changes, use:
+
+`INSPECT → PROPOSE → VALIDATE → TEST → APPROVE WHEN REQUIRED → APPLY → VERIFY`
+
+Preserve checkpoints or rollback mechanisms where supported.
+
+---
+
+# PART 12 — MEMORY, CONVERSATION, AND PERSONALIZATION
+
+Build user-controlled memory using the actual persistence layer.
+
+Separate:
+
+- Current request context.
+- Temporary session state.
+- Conversation history.
+- User-approved preferences.
+- Project memory.
+- Indexed documents.
+- Knowledge graph records.
+- Operational logs.
+
+Support, where feasible:
+
+- Conversation search.
+- Relevant context retrieval.
+- Saved preferences.
+- User-visible memory controls.
+- Editing saved information.
+- Export.
+- Deletion.
+- Cross-session persistence.
+- Appropriate cross-device synchronization.
+
+Implement only the synchronization actually supported by storage and authentication.
+
+Prevent cross-user access.
+
+Do not store sensitive data unnecessarily.
+
+Do not treat every conversation statement as a permanent preference.
+
+Do not claim perfect memory or unlimited context.
+
+Use retrieval and summarization strategies appropriate to the model's real limits.
+
+---
+
+# PART 13 — ADVANCED AGENTS AND CONTROLLED AUTOMATION
+
+Build a bounded agent framework that operates real available tools.
+
+Each task should track:
+
+- Task ID.
+- Goal.
+- Request context.
+- Required capabilities.
+- Plan.
+- Current step.
+- Tool permissions.
+- Deadline.
+- Remaining budget.
+- Cancellation status.
+- Verification criteria.
+- Completion state.
+- Relevant evidence.
+
+Implement specialized workflows where useful:
+
+- Research agent.
+- Knowledge-retrieval agent.
+- Programming agent.
+- Document-analysis agent.
+- Education agent.
+- Data-analysis agent.
+- Multimodal agent.
+- External-service agent.
+- Optional workflow automation agent.
+
+Do not create artificial agents that simply repeat one another's answers.
+
+Do not run parallel agents unless the task benefits from it.
+
+## 13.1 Tool registry
+
+Every real tool must have:
+
+- Stable ID.
+- Input schema.
+- Output schema.
+- Authorization requirements.
+- Risk classification.
+- Execution timeout.
+- Resource limits.
+- Actual availability.
+- Audit behavior.
+- Error handling.
+
+Validate tool arguments on the server.
+
+Treat model instructions, external documents, retrieved webpages, and tool results as untrusted input.
+
+Require suitable confirmation for consequential operations such as sending emails, modifying external records, deleting user data, changing important settings, or deploying software.
+
+Never allow retrieved content to grant permissions or override security policy.
+
+## 13.2 MCP and connectors
+
+Where useful and compatible, support controlled Model Context Protocol integrations.
+
+Requirements:
+
+- Explicit connector configuration.
+- Authentication where required.
+- Secure transport.
+- Tool allowlisting.
+- Argument validation.
+- Permissions.
+- Call limits.
+- Timeouts.
+- Output-size limits.
+- Safe error handling.
+- Connector-specific diagnostics.
+
+Do not assume that the mere existence of an MCP adapter grants access to external services.
+
+---
+
+# PART 14 — SELF-IMPROVEMENT AND ADAPTIVE SYSTEM QUALITY
+
+Upgrade the existing improvement engine or create an equivalent controlled workflow.
+
+Use observable evidence to improve the application.
+
+Support:
+
+- Runtime error analysis.
+- Repeated-failure detection.
+- Test failure diagnosis.
+- Retrieval-quality evaluation.
+- Capability-status verification.
+- Suggested code patches.
+- Regression tests.
+- Comparative evaluations.
+- Controlled prompt/configuration experiments.
+- Version tracking.
+- Rollback where available.
+
+Use this lifecycle:
+
+`OBSERVE → DIAGNOSE → PROPOSE → REVIEW → TEST → VALIDATE → APPROVE WHEN REQUIRED → APPLY → VERIFY → RECORD`
+
+Never allow unrestricted self-modification of production security, authorization, credentials, or core safety rules.
+
+Do not disable tests to obtain a passing result.
+
+Do not deploy unreviewed code merely to make the system appear autonomous.
+
+Distinguish software updates, prompt changes, retrieval improvements, memory, fine-tuning, and model-weight training.
+
+Do not claim that user feedback trains the foundation model unless a real supported training process has occurred and its completion is verified.
+
+---
+
+# PART 15 — SECURITY AND PRIVACY
+
+Protect the complete application, not only the frontend.
+
+Implement the applicable controls for:
+
+- Authentication.
+- Authorization.
+- User ownership.
+- Secret management.
+- Request validation.
+- Rate limiting.
+- File validation.
+- Output sanitization.
+- Session management.
+- External connector security.
+- Audit events.
+- Tool permissions.
+- Prompt-injection resistance.
+- Data retention.
+- Export and deletion.
+- Sensitive logging.
+- Network access restrictions.
+- Supply-chain and dependency checks.
+
+Use server-side API keys for integrations that require them.
+
+Never expose private API keys through frontend JavaScript, public environment variables, client bundles, URLs, logs, or error messages.
+
+Use the current Google AI Studio secret-management mechanism when available.
+
+Do not ask the user to place private keys into ordinary chat messages.
+
+Do not allow arbitrary URLs to access internal services or restricted network addresses.
+
+Do not let a model execute arbitrary commands on the host.
+
+Do not claim absolute security, perfect privacy, or unconditional compliance.
+
+---
+
+# PART 16 — RELIABILITY AND QUOTA MANAGEMENT
+
+Repair the real errors already observed in the project.
+
+These include possible WebSocket lifecycle failures, Gemini HTTP 503 service failures, Gemini HTTP 429 quota exhaustion, missing providers, failed streaming, and inconsistent UI errors.
+
+Inspect actual logs and code before determining their cause.
+
+## WebSocket
+
+Distinguish Vite HMR, application-owned sockets, and provider real-time sessions.
+
+Handle connection states correctly.
+
+Send application messages only when the relevant socket is open.
+
+Prevent duplicate connections, duplicate listeners, unbounded reconnect loops, and stale resources.
+
+Use bounded retries with exponential backoff and jitter for eligible transient failures.
+
+Respect connection deadlines and cancellation.
+
+Do not patch Vite internals as the first-line fix.
+
+## Provider errors
+
+Normalize provider errors into a shared error model.
+
+Distinguish:
+
+- Authentication errors.
+- Permission failures.
+- Invalid requests.
+- Model unavailability.
+- Transient service errors.
+- Rate limits.
+- Token limits.
+- Exhausted quotas.
+- Billing restrictions.
+- Network failures.
+- Timeouts.
+- Cancellation.
+
+Retry only when justified.
+
+Do not repeatedly retry a depleted daily quota.
+
+Never create an infinite retry loop.
+
+Use circuit breakers, request deadlines, bounded concurrency, and budget enforcement where appropriate.
+
+## Graceful degradation
+
+A failure in an optional integration must not automatically disable unrelated working functions.
+
+Ordinary text chat must remain separate from optional voice, video, research, image generation, and Workspace operations.
+
+Never claim that a fallback succeeded unless it produced an actual valid response.
+
+---
+
+# PART 17 — USER INTERFACE AND OBSERVABILITY
+
+Improve the existing interface without destroying its established functionality.
+
+Provide a coherent interface for:
+
+- Chat.
+- Model selection.
+- Provider availability.
+- Search and research.
+- Sources and citations.
+- Knowledge collections.
+- Document ingestion.
+- Knowledge graph exploration.
+- Conversation history.
+- Memory settings.
+- Image tools.
+- Audio tools.
+- Video workflows.
+- Coding and data analysis.
+- Task progress.
+- External integrations.
+- Permissions.
+- Usage and budget information.
+- Diagnostics.
+- Administrative operations with proper access control.
+
+Every visible control must perform an actual operation or show a clear unavailable state.
+
+Use Vietnamese as a primary interface language and support English and Korean where practical.
+
+Preserve Unicode, correct rendering, keyboard access, responsive layout, clear loading states, and understandable error messages.
+
+Progress indicators must reflect real job states.
+
+Do not fabricate model status, usage figures, search results, or completed tasks.
+
+---
+
+# PART 18 — TECHNICAL CONFIGURATION
+
+Inspect and correct `src/core`, `src/absorption`, `src/modules`, and `src/types` according to their real responsibilities.
+
+Keep boundaries clear.
+
+Avoid:
+
+- Circular dependencies.
+- Duplicate provider logic.
+- Giant monolithic modules.
+- Speculative abstractions.
+- Unnecessary global state.
+- Fake capability implementations.
+- Silent permission bypasses.
+
+Inspect `vite.config.ts`, `tsconfig.json`, `package.json`, and the existing lockfile.
+
+Preserve compatible configurations.
+
+Keep TypeScript types aligned with runtime validation.
+
+Use supported API versions and official SDK documentation.
+
+Do not blindly upgrade all dependencies.
+
+Do not create dummy scripts or hide errors using `|| true`.
+
+Run the actual project checks that the environment supports.
+
+If a dependency or external service is unavailable, record the real blocker and continue with independent work.
+
+---
+
+# PART 19 — COST, USAGE, AND PERFORMANCE
+
+Build an honest resource-management layer.
+
+Where supported, track:
+
+- Provider requests.
+- Token usage.
+- Search and tool calls.
+- Media-processing usage.
+- Latency.
+- Retries.
+- Failed requests.
+- Actual provider-reported usage.
+- Estimated application cost.
+- Usage limits.
+- Remaining configured budget.
+
+Distinguish measured figures from estimates.
+
+Use bounded concurrency, caching where appropriate, duplicate-request prevention, cancellation, incremental ingestion, and suitable batching.
+
+Do not send every request to every model.
+
+Do not perform unnecessary paid model comparisons.
+
+Do not claim unlimited capacity or free access to paid APIs.
+
+Do not report performance improvements without measurements.
+
+---
+
+# PART 20 — TESTS AND ACCEPTANCE
+
+Create and execute relevant tests for the actual project.
+
+Verify:
+
+### Chat and provider integration
+- A real configured provider request.
+- Successful response rendering.
+- Streaming.
+- Cancellation.
+- Timeouts.
+- Correct error reporting.
+- Missing credentials.
+- 503 handling.
+- 429 handling.
+- Quota exhaustion.
+- Allowed fallback.
+- User-locked model behavior.
+
+### Knowledge
+- Supported file ingestion.
+- Parsing.
+- Deduplication.
+- Idempotency.
+- Retrieval.
+- Multilingual search where supported.
+- Source provenance.
+- Citation integrity.
+- Conflicting claims.
+- Stale records.
+- Deletion.
+- Authorization boundaries.
+- Prompt injection in imported documents.
+
+### Agents and integrations
+- Tool schema validation.
+- Unauthorized access.
+- Confirmation workflows.
+- Deadline limits.
+- Cancellation.
+- External connector errors.
+- Permission revocation where supported.
+
+### Security
+- Credential exposure.
+- Cross-user access.
+- Unsafe rendering.
+- Invalid URLs.
+- Oversized files.
+- Sensitive logging.
+- Authorization enforcement.
+- Unexpected tool execution.
+
+### Build
+- Type checking.
+- Relevant automated tests.
+- Linting where configured.
+- Production build.
+- Configuration consistency.
+- Regression testing.
+
+Classify each check as:
+
+`PASS`, `FAIL`, `BLOCKED`, or `NOT RUN`.
+
+Clearly distinguish mocked tests from real provider integration tests.
+
+Never invent test results.
+
+Do not make expensive real API calls unnecessarily.
+
+---
+
+# PART 21 — EXECUTION PLAN
+
+Execute these phases continuously without asking for confirmation after every phase.
+
+**Phase 0 — Audit:** Inspect the real project, existing capabilities, configuration, and failures.
+
+**Phase 1 — Stabilize:** Repair chat, provider requests, streaming, WebSocket lifecycle, and error handling.
+
+**Phase 2 — Core:** Consolidate orchestration, shared types, capability registry, limits, and provider interfaces.
+
+**Phase 3 — Google:** Complete the existing Gemini flow and implement applicable Google API capabilities.
+
+**Phase 4 — Multi-provider:** Implement and test additional provider adapters when configured.
+
+**Phase 5 — Knowledge:** Upgrade ingestion, retrieval, provenance, search, domain taxonomy, and knowledge graph.
+
+**Phase 6 — Research:** Implement grounded search, citation workflows, cross-source verification, and long-running research where supported.
+
+**Phase 7 — Multimodal:** Implement the actual available image, audio, video, and creative-media integrations.
+
+**Phase 8 — Agents:** Integrate bounded task planning, real tools, external connectors, permissions, and confirmation workflows.
+
+**Phase 9 — Persistence:** Complete suitable conversation history, user-controlled memory, and database integration.
+
+**Phase 10 — Reliability:** Add diagnostics, rate-limit handling, cost controls, security validation, and graceful degradation.
+
+**Phase 11 — Validate:** Run available tests, type checks, builds, and regression checks. Fix the failures discovered.
+
+**Phase 12 — Report:** Produce an evidence-based feature matrix and identify remaining requirements.
+
+Do not stop after writing the plan.
+
+Implement the safe changes that can be completed within the current environment.
+
+---
+
+# PART 22 — FINAL DEFINITION OF DONE
+
+The upgrade is complete only to the extent supported by evidence.
+
+Required results include:
+
+- The existing project has been inspected.
+- Existing working functionality is preserved.
+- The primary chat path works with a genuinely configured provider, or the exact blocker is identified.
+- The major runtime errors have been investigated.
+- The core architecture is coherent.
+- Provider selection uses verified capability information.
+- Google integrations reflect actual availability and permissions.
+- Knowledge ingestion and retrieval use real implementations.
+- Evidence and citations preserve source provenance.
+- Supported multimodal workflows use actual connected services.
+- Tool execution follows authorization rules.
+- Secrets remain protected.
+- Quota handling is bounded and accurate.
+- Relevant tests and builds have actually been executed.
+- Unimplemented features are marked honestly.
+- The remaining production work is documented.
+
+A generated interface is not proof of integration.
+
+An API key is not proof of a successful request.
+
+A registered source is not proof that its entire contents have been indexed.
+
+A generated citation is not proof that the cited source exists.
+
+A passing build is not proof that every integration works.
+
+A multi-model architecture is not proof that every model is accessible.
+
+A knowledge database is not proof that all human knowledge has been acquired.
+
+---
+
+# PART 23 — REQUIRED FINAL REPORT
+
+After the implementation, report:
+
+1. Actual project condition discovered.
+2. Highest-priority failures found.
+3. Verified errors repaired.
+4. Actual files modified.
+5. Core and architecture changes.
+6. Google Gemini status.
+7. Google Search and research status.
+8. Google Workspace and Firebase status where applicable.
+9. OpenAI and Claude status.
+10. Additional provider status.
+11. Knowledge ingestion and retrieval status.
+12. Knowledge graph status.
+13. Scientific and multilingual retrieval status.
+14. Image, audio, video, and voice status.
+15. Agent and external-tool status.
+16. Security and privacy changes.
+17. Actual tests, type checks, and build results.
+18. Missing credentials, permissions, quotas, or services.
+19. Known defects and unresolved limitations.
+20. Remaining work needed for production.
+
+Use the following capability statuses:
+
+`WORKING`, `PARTIAL`, `MOCK`, `NOT CONFIGURED`, `NOT TESTED`, `BLOCKED`, `UNAVAILABLE`, `FAILED`.
+
+Provide evidence for major claims.
+
+Do not describe the entire platform as complete merely because some parts work.
+
+---
+
+# FINAL EXECUTION COMMAND
+
+Upgrade the existing **NDAWG PRO — APEX INFINITY** project into the strongest practical, evidence-based, multi-provider AI and universal knowledge platform that the current environment can support.
+
+Treat all previous architecture and useful working code as the starting point.
+
+Prioritize real functionality over decorative complexity.
+
+Repair the chat and provider failures first.
+
+Then integrate the Google ecosystem, other configured AI providers, universal knowledge acquisition, RAG, research, multilingual retrieval, multimodal features, agents, memory, security, reliability, and controlled improvement.
+
+Implement changes directly in the existing codebase.
+
+Inspect files before editing them.
+
+Preserve functioning features and user data.
+
+Use current official documentation for changing model IDs, APIs, permissions, and provider capabilities.
+
+Do not fabricate integrations, source material, test results, or access to proprietary knowledge.
+
+Do not pretend that a prompt alone can grant every API permission or acquire all human knowledge.
+
+When a capability is blocked, implement its safe independent components and report the exact remaining requirement.
+
+Continue until all safely implementable work in the current environment has been completed, the available checks have run, regressions have been addressed, and the final report accurately describes the result.
+
+**The mission is to make NDAWG PRO — APEX INFINITY a continually expandable, globally oriented AI knowledge platform—not to claim that it has already achieved impossible completeness.**

@@ -1,0 +1,127 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile and settings in NDAWG PRO",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique identifier of the authenticated user"
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "User display name"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 150,
+          "description": "User email address"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "developer", "admin"],
+          "description": "Role in the workspace"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when profile was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when profile was last updated"
+        }
+      },
+      "required": ["uid", "email"]
+    },
+    "WorkspaceSyncItem": {
+      "title": "WorkspaceSyncItem",
+      "description": "Bookmarked or cached metadata for Google Tasks, Google Drive files, and Google Chat spaces",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Item identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "service": {
+          "type": "string",
+          "enum": ["tasks", "drive", "chat"],
+          "description": "Associated Google Workspace service"
+        },
+        "resourceId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "External resource ID from Google API"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Title or name of the task, space, or document"
+        },
+        "status": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Status of the task or item"
+        },
+        "lastSyncedAt": {
+          "type": "string",
+          "description": "Timestamp of synchronization"
+        }
+      },
+      "required": ["id", "userId", "service", "resourceId", "title"]
+    },
+    "AuditLogEntry": {
+      "title": "AuditLogEntry",
+      "description": "Audit entry recorded in Firestore for security and compliance",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Audit record ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Actor user ID"
+        },
+        "action": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Action executed"
+        },
+        "details": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Sanitized summary of the action"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Server timestamp of the audit entry"
+        }
+      },
+      "required": ["id", "userId", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile documents strictly accessible by the document owner"
+    },
+    "/users/{userId}/workspaceSync/{itemId}": {
+      "schema": { "$ref": "#/entities/WorkspaceSyncItem" },
+      "description": "User synchronized Google Workspace records (tasks, drive, chat)"
+    },
+    "/users/{userId}/audits/{auditId}": {
+      "schema": { "$ref": "#/entities/AuditLogEntry" },
+      "description": "Append-only user governance and operational audit logs"
+    }
+  }
+}

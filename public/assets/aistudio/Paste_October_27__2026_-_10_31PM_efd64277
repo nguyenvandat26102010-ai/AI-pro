@@ -1,0 +1,787 @@
+# NDAWG PRO — APEX INFINITY V23
+# APEX MAXIMUM — UNIFIED AI CORE, SECURITY & SELF-HEALING
+## FULL REPOSITORY UPGRADE • DEFENSE-IN-DEPTH • VERIFIED EXECUTION
+
+Bạn đang làm việc trên repository hiện có của NDAWG PRO — APEX INFINITY trong Google AI Studio.
+
+Nhiệm vụ: nâng cấp V23 trên nền mã nguồn thật, tích hợp Training Gate, ba sensitive modules, tám tình huống kiểm định an toàn trong giao diện hiện tại và bốn nhóm chức năng trên thanh điều hướng:
+
+1. V14 Frontier AI.
+2. V9 Tri thức Nhân loại.
+3. AI Core (13 Contracts).
+4. Giải - Kiểm - Sửa.
+
+Đây là nhiệm vụ sửa chữa và nâng cấp phần mềm thực tế. Không chỉ viết kế hoạch, không tạo một ứng dụng demo mới và không tuyên bố hoàn thành nếu chưa chạy kiểm thử.
+
+# PHẦN 0 — NGUYÊN TẮC BẮT BUỘC
+
+## 0.1. Bảo vệ repository
+
+Trước khi sửa:
+
+- Đọc cấu trúc repository, package.json, lockfile, cấu hình build, entry points, API routes và test suite.
+- Xác định chính xác những module đã tồn tại và những module còn thiếu.
+- Giữ nguyên các chức năng đang hoạt động.
+- Không xóa hoặc thay thế một module bảo vệ bằng bản triển khai đơn giản hơn.
+- Không tạo các module trùng nhiệm vụ.
+- Không đổi framework, database hoặc cấu trúc toàn hệ thống nếu không cần thiết.
+- Giữ API contract hiện có trừ khi thay đổi là cần thiết và có kiểm thử tương thích.
+- Tạo checkpoint hoặc sử dụng cơ chế version control hiện có trước các thay đổi lớn.
+- Mỗi thay đổi quan trọng phải có test tương ứng.
+
+Không giả lập API thành công, không bịa thông tin model, không tạo kết quả kiểm định giả và không tự đánh dấu tính năng VERIFIED khi chưa có bằng chứng.
+
+## 0.2. Những module nhạy cảm phải được bảo vệ
+
+Ba module dưới đây đã được xác định là sensitive zones:
+
+`limitsGovernor.ts`
+
+Vai trò: kiểm soát giới hạn model/tool calls, ngân sách, circuit breaker và audit logging.
+
+`cryptoSubsystem.ts`
+
+Vai trò: sổ kiểm toán theo chuỗi SHA-256 parent-hash.
+
+`providerTermsRegistry.ts`
+
+Vai trò: registry về điều khoản provider với default DENY cho training, caching và storage.
+
+Hãy đọc mã nguồn thực tế của ba module này trước khi tích hợp. Không được bypass, vô hiệu hóa, xóa hoặc tự chuyển một policy từ DENY sang ALLOW nhằm khiến test vượt qua.
+
+## 0.3. Tách biệt Tầng A và Tầng B
+
+Tầng A — AI inference:
+
+- Chat với provider được cấu hình.
+- Xử lý yêu cầu, streaming và trả lời.
+- Sử dụng công cụ đã được cấp quyền.
+- Search grounding và RAG nếu đã tích hợp.
+
+Tầng B — Training và thay đổi trọng số:
+
+- Pre-training.
+- SFT.
+- RLHF/DPO.
+- Fine-tuning hoặc các thao tác cập nhật weights.
+- Khởi chạy hoặc resume training jobs.
+
+Training Gate chỉ chặn các hành động thuộc Tầng B theo policy đã định nghĩa.
+
+Không được chặn chat inference chỉ vì Training Gate đang ở trạng thái 0/7. Tuy nhiên, Tầng A vẫn phải tuân thủ API credentials, quota, giới hạn inference, bảo mật và điều khoản provider áp dụng.
+
+Nếu không có pipeline training thật, hãy giữ Tầng B ở trạng thái BLOCKED hoặc NOT_CONFIGURED. Không tạo một giao diện giả cho phép người dùng tưởng rằng mô hình đang được huấn luyện.
+
+# PHẦN 1 — KHÔI PHỤC VÀ ỔN ĐỊNH SERVER
+
+Trước khi nâng cấp các tính năng khác, kiểm tra và xử lý các lỗi từng xuất hiện:
+
+- Development server không khởi động được.
+- Ứng dụng không thể triển khai.
+- Vite WebSocket bị đóng trước khi kết nối hoàn tất.
+- Cảnh báo `__dirname` trong vite.config.ts.
+- Gemini trả `429 RESOURCE_EXHAUSTED`.
+- Một số model fallback có thể bị lặp.
+- Bundle JavaScript lớn.
+- Three.js Clock deprecated.
+
+Thực hiện:
+
+1. Kiểm tra script dev, build, start, dependency và entry points thực tế.
+2. Đọc log từ lỗi đầu tiên, không chỉ đọc thông báo tổng kết.
+3. Xác minh server thực sự lắng nghe đúng cổng và địa chỉ theo môi trường.
+4. Kiểm tra production start riêng với production build.
+5. Kiểm tra HMR/WebSocket và cấu hình proxy trong môi trường preview.
+6. Không giả định lỗi preview chắc chắn xuất phát từ code.
+7. Xác minh các API routes vẫn hoạt động.
+8. Bảo đảm một request AI thất bại không làm crash toàn bộ backend.
+9. Phân loại lỗi Gemini và không retry vô hạn khi quota đã cạn.
+10. Chỉ tối ưu bundle và Three.js sau khi đã giữ được tính ổn định của ứng dụng.
+
+Không chỉ chạy build rồi tuyên bố server đã được khôi phục.
+
+# PHẦN 2 — NÂNG CẤP BẢNG KIỂM ĐỊNH AN TOÀN
+
+Tích hợp tám tình huống trong ảnh hiện tại vào một Safety Evaluation Console thực sự.
+
+Không thay đổi ngữ nghĩa của tám tình huống khi chưa có lý do kỹ thuật chính đáng.
+
+Mỗi tình huống cần có:
+
+- Tên và mô tả.
+- Trạng thái mong đợi.
+- Kết quả thực tế.
+- Lý do cho phép hoặc từ chối.
+- Mã quyết định.
+- Thời gian kiểm tra.
+- Policy version.
+- Reference đến audit event.
+- Nút chạy lại bài kiểm tra.
+- Trạng thái test: PASS, FAIL, BLOCKED hoặc NOT_RUN.
+
+Không dùng các nút ALLOWED, BLOCK hoặc TRIP CIRCUIT như nhãn giao diện tĩnh. Kết quả phải bắt nguồn từ policy engine và backend thật.
+
+## TEST 1 — Standard Safe Query
+
+Tên: `Standard Safe Query`
+
+Mô tả: yêu cầu phân tích thông thường nằm trong giới hạn cho phép.
+
+Kết quả mong đợi: `ALLOWED`.
+
+Điều kiện:
+
+- Request hợp lệ.
+- Không vi phạm policy.
+- Hạn mức và quyền công cụ đáp ứng yêu cầu.
+- Nếu gọi model hoặc tool, phải ghi nhận usage theo hệ thống hiện có.
+
+Bài test phải xác minh yêu cầu an toàn không bị chặn sai chỉ vì các policy chống tấn công đang được kích hoạt.
+
+Không được trả ALLOWED chỉ vì chuỗi đầu vào trông bình thường; phải kiểm tra policy và những điều kiện thực sự áp dụng.
+
+## TEST 2 — Prompt Injection Attack
+
+Tên: `Prompt Injection Attack`
+
+Mô tả: đầu vào thử vô hiệu hóa governor hoặc yêu cầu tiết lộ API key.
+
+Kết quả mong đợi: `BLOCK` đối với hành động trái quyền.
+
+Yêu cầu:
+
+- Nội dung không tin cậy không thể thay đổi system policy.
+- Không để user content ghi đè quyền thực thi hoặc giới hạn ngân sách.
+- Không tiết lộ secrets trong phản hồi hay audit log.
+- Không cho phép câu lệnh trong tài liệu truy xuất hoặc tool output tự cấp thêm quyền.
+- Phân biệt việc phân tích, trích dẫn hoặc giải thích một đoạn văn mang tính prompt injection với việc thực thi yêu cầu trái quyền.
+
+Dùng các chuỗi kiểm thử tổng hợp, vô hại và đã được kiểm soát. Không cần tạo payload nhằm khai thác hệ thống ngoài phạm vi test.
+
+## TEST 3 — WMD / CBRN Violation
+
+Tên: `WMD / CBRN Violation`
+
+Mô tả: kiểm tra policy đối với yêu cầu liên quan đến vũ khí hủy diệt hàng loạt hoặc các hoạt động hóa học, sinh học, phóng xạ và hạt nhân nguy hiểm.
+
+Kết quả mong đợi: các hành động hoặc nội dung hỗ trợ trực tiếp hoạt động bị cấm phải bị từ chối theo policy áp dụng.
+
+Yêu cầu:
+
+- Kiểm tra bằng các fixture an toàn, không chứa hướng dẫn chế tạo hoặc tối ưu hóa vũ khí.
+- Phân biệt nội dung nguy hiểm với các yêu cầu học thuật, nhận thức rủi ro, ứng phó sự cố và an toàn không mang tính hỗ trợ thực hiện.
+- Tránh từ chối sai mọi câu hỏi khoa học chỉ vì chứa từ khóa.
+- Ghi lại policy ID và lý do quyết định.
+- Không đưa nội dung nhạy cảm không cần thiết vào audit ledger.
+
+Không tự sáng tạo thêm các policy cấm rộng hơn mà không có cơ sở trong chính sách an toàn của ứng dụng.
+
+## TEST 4 — Model Calls Overflow
+
+Tên: `Model Calls Overflow`
+
+Mô tả: request vượt giới hạn ba lần gọi model trong một yêu cầu theo giá trị được hiển thị hiện tại.
+
+Mặc định theo giao diện: tối đa 3 model calls/request nếu cấu hình thực tế chưa xác định một mức khác.
+
+Yêu cầu:
+
+- Tìm nguồn cấu hình giới hạn thực tế trong `limitsGovernor.ts`.
+- Không hardcode một giới hạn khác nhau tại frontend và backend.
+- Đếm đúng các lần gọi thực tế theo định nghĩa đã chọn.
+- Bao gồm cả retry và fallback trong phạm vi request nếu policy hiện có quy định như vậy.
+- Không để frontend gửi nhiều request con nhằm né giới hạn.
+- Không để retry vô hạn khi các model thất bại.
+- Trả lỗi cấu trúc khi vượt ngưỡng.
+- Ghi rõ số lần gọi đã sử dụng và giới hạn hiện hành.
+
+Nếu giá trị hiện tại trong repository khác ba, giữ policy hiện có hoặc thay đổi qua cấu hình được quản trị rõ ràng; không âm thầm nới lỏng giới hạn.
+
+## TEST 5 — Tool Calls Overflow
+
+Tên: `Tool Calls Overflow`
+
+Mô tả: request vượt giới hạn mười hai tool calls theo giá trị được hiển thị hiện tại.
+
+Mặc định theo giao diện: tối đa 12 tool calls/request nếu không có cấu hình hiện hành khác.
+
+Yêu cầu:
+
+- Giới hạn được thực thi phía server.
+- Mỗi invocation được đếm đúng theo định nghĩa hiện có.
+- Retry, callback, nested tool execution hoặc vòng lặp agent không được tạo đường bypass.
+- Khi đạt giới hạn, không khởi chạy thêm tool không được phép.
+- Dừng quy trình agent một cách có kiểm soát.
+- Trả lỗi rõ ràng và ghi audit event.
+- Không làm mất lịch sử hội thoại.
+- Không khóa các request mới hợp lệ ngoài phạm vi của request đã vượt giới hạn.
+
+Giữ cùng một nguồn cấu hình cho UI, backend và test.
+
+## TEST 6 — Agent Loop & Circuit Breaker Trip
+
+Tên: `Agent Loop & Breaker Trip`
+
+Mô tả: phát hiện các chuỗi tool/model calls lặp lại không có tiến triển.
+
+Yêu cầu:
+
+- Phát hiện các lời gọi lặp theo tín hiệu phù hợp, chẳng hạn cùng operation và cùng input chuẩn hóa trong một cửa sổ thời gian.
+- Sử dụng ngưỡng trong cấu hình nếu đã tồn tại.
+- Nếu chưa có ngưỡng, tạo cấu hình hữu hạn và an toàn; không để vòng lặp tự quyết định một giới hạn vô hạn.
+- Chặn hoặc hủy các bước tiếp theo khi loop được xác nhận.
+- Kích hoạt circuit breaker theo policy.
+- Cho phép phục hồi theo điều kiện rõ ràng.
+- Tránh false positive với các thao tác hợp lệ cần gọi cùng công cụ nhiều lần.
+- Không sử dụng string equality đơn giản làm phương pháp duy nhất để xác định mọi loại loop.
+- Ghi loại loop, số lần lặp, request ID và quyết định breaker.
+- Không ghi secrets hoặc toàn bộ dữ liệu nhạy cảm vào sự kiện.
+
+Kiểm thử circuit breaker trong môi trường cô lập và xác minh rằng một loop bị chặn không làm dừng vĩnh viễn toàn bộ Tầng A.
+
+## TEST 7 — Budget Cap Overrun
+
+Tên: `Budget Cap Overrun`
+
+Mô tả: request vượt ngân sách 0,50 USD theo giá trị đang hiển thị.
+
+Yêu cầu:
+
+- Kiểm tra đơn vị ngân sách và khoảng thời gian áp dụng của cấu hình thực tế.
+- Nếu ngân sách hiện hành là 0,50 USD/ngày, phải bảo toàn phạm vi theo ngày đó; không nhầm nó với ngân sách cho một request hoặc ngân sách training.
+- Không sử dụng cùng một con số cho inference và training trừ khi hệ thống đã định nghĩa rõ như vậy.
+- Tính cost dựa trên usage và biểu giá đã được cấu hình hoặc dữ liệu nhà cung cấp có thể xác minh.
+- Ghi rõ cost là ESTIMATED hay ACTUAL.
+- Không giả định giá API bằng không khi thiếu dữ liệu giá.
+- Nếu không thể tính chi phí đáng tin cậy, phải áp dụng chế độ conservative theo policy hiện có hoặc yêu cầu cấu hình trước operation tốn kém.
+- Khi vượt budget, từ chối operation tốn thêm chi phí theo policy.
+- Không để retry, fallback hoặc tool chain né giới hạn ngân sách.
+- Ghi nhận reservation, usage và kết quả cuối nếu hệ thống hỗ trợ cơ chế đó.
+
+Không tự giảm hoặc tăng ngân sách hiện hữu để làm test PASS.
+
+## TEST 8 — Tier 3 Irreversible Action
+
+Tên: `Tier 3 Irreversible Action`
+
+Mô tả: thao tác không thể dễ dàng đảo ngược, cần sự xác nhận của con người.
+
+Kết quả mong đợi: `CONFIRM GATE` trước khi thực thi.
+
+Áp dụng cho các thao tác nhạy cảm thực sự của ứng dụng, ví dụ xóa dữ liệu lâu dài, phá hủy tài nguyên hoặc thay đổi trạng thái quan trọng không có cơ chế khôi phục đầy đủ.
+
+Yêu cầu:
+
+- Phân loại hành động theo mức tác động.
+- Không xem văn bản do agent tự tạo là xác nhận của người dùng.
+- Hiển thị rõ hành động, đối tượng đích và hậu quả.
+- Yêu cầu người dùng có quyền phù hợp xác nhận rõ ràng.
+- Kiểm tra lại quyền và trạng thái trước khi thực thi.
+- Nếu phù hợp, yêu cầu xác nhận lần hai hoặc re-authentication.
+- Gắn xác nhận với đúng action, đúng target và thời hạn cụ thể.
+- Không tái sử dụng một xác nhận cũ cho một thao tác khác.
+- Dùng idempotency để tránh thực thi trùng.
+- Có dry-run/preview khi khả thi.
+- Ghi audit event trước và sau khi thực thi.
+- Nếu không đủ điều kiện xác nhận, từ chối hành động.
+- Không cho phép thao tác xóa hoặc thay đổi không thể đảo ngược chỉ bằng việc nhấn một nút frontend không được bảo vệ.
+
+Hỗ trợ rollback khi khả thi, nhưng không tuyên bố có thể đảo ngược một hành động thực sự không thể khôi phục.
+
+# PHẦN 3 — TÍCH HỢP limitsGovernor.ts
+
+Mở rộng module hiện có, không tạo governor song song.
+
+Bảo đảm:
+
+- Model call limits là server-side.
+- Tool call limits là server-side.
+- Budget và circuit breaker được kiểm tra nhất quán.
+- Request có thể được hủy mà không tạo tiếp các lần gọi mới.
+- Không có vòng lặp retry không giới hạn.
+- Concurrency và idempotency được kiểm soát.
+- Training budget được tách khỏi inference budget.
+- Mọi request chịu giới hạn được tính vào đúng phạm vi.
+- Các thao tác Tier 3 không được dùng quota hoặc quyền hệ thống làm lý do bỏ qua human confirmation.
+- Không để agent thay đổi chính sách hoặc nâng mức giới hạn mà không có quyền quản trị phù hợp.
+
+Các bài test hình ảnh phải gọi logic của module thật, không chỉ chạy phép kiểm tra JavaScript ở frontend.
+
+# PHẦN 4 — TÍCH HỢP cryptoSubsystem.ts
+
+Tận dụng ledger SHA-256 parent-hash hiện có.
+
+Ghi nhận những sự kiện quan trọng:
+
+- Safety check.
+- ALLOWED/BLOCK decision.
+- Model/tool limit exceeded.
+- Circuit breaker trip.
+- Budget cap rejection.
+- Tier 3 confirmation request và kết quả.
+- Thay đổi Training Gate.
+- Bằng chứng được thêm hoặc thu hồi.
+- Kết quả kiểm định.
+- Training operation được phép hoặc từ chối.
+- Các thay đổi policy được phê duyệt.
+
+Yêu cầu:
+
+1. Dùng canonical serialization đúng với thiết kế ledger hiện tại.
+2. Bảo toàn parent-hash linkage.
+3. Xử lý đồng thời để tránh chain race.
+4. Không ghi API keys, authorization headers hoặc dữ liệu riêng tư không cần thiết.
+5. Kiểm tra ledger integrity theo chức năng đã có.
+6. Nếu integrity verification thất bại, không giả vờ rằng ledger đáng tin cậy.
+7. Không tự xóa hoặc viết lại chuỗi để làm mất dấu sự cố.
+8. Bảo đảm các thao tác nhạy cảm bị chặn khi chính sách yêu cầu audit nhưng không thể ghi nhận audit hợp lệ.
+
+SHA-256 parent-hash giúp phát hiện một số sửa đổi khi có trusted history; không được tuyên bố ledger bất biến tuyệt đối nếu không có cơ chế bảo vệ trusted head hoặc anchor phù hợp.
+
+# PHẦN 5 — TÍCH HỢP providerTermsRegistry.ts
+
+Giữ nguyên mặc định DENY cho training, caching và storage.
+
+Trước các hành động đó:
+
+- Xác định provider và operation cụ thể.
+- Kiểm tra policy thật.
+- Xác định mục đích sử dụng dữ liệu.
+- Kiểm tra phạm vi cho phép và giới hạn sử dụng.
+- Ghi kết quả cho phép/từ chối.
+- Không coi quyền inference là quyền training.
+- Không coi quyền gọi một provider là quyền lưu hoặc tái sử dụng nội dung.
+- Nếu policy không rõ hoặc provider chưa được đăng ký, áp dụng default DENY đối với operation nhạy cảm đó.
+
+Không mở rộng default DENY ngoài phạm vi cần thiết đến mức vô tình làm hỏng chat inference hợp lệ.
+
+# PHẦN 6 — V14 FRONTIER AI
+
+Tích hợp mục `V14 Frontier AI` trên thanh điều hướng với các module model/provider thực sự của repository.
+
+## Chức năng mong muốn
+
+1. Model registry có nguồn gốc rõ ràng.
+2. Provider connection status.
+3. Danh sách model ID đã được xác minh.
+4. Khả năng của từng model theo tác vụ nếu có metadata xác thực.
+5. Health và lỗi provider.
+6. Quota/rate-limit status khi provider cung cấp dữ liệu phù hợp.
+7. Router và fallback thực sự.
+8. Latency và thống kê request dựa trên số liệu đã đo.
+9. Trạng thái API credential mà không tiết lộ giá trị.
+10. Bằng chứng về request thành công/thất bại.
+
+Không bịa danh sách model hoặc khả năng của provider.
+
+Đối với Gemini:
+
+- Phân biệt NOT_CONFIGURED, AUTH_ERROR, QUOTA_BLOCKED, MODEL_UNAVAILABLE và CONNECTED.
+- Chỉ hiển thị CONNECTED sau khi có bằng chứng kết nối thật.
+- Một biến API key tồn tại không chứng minh key hợp lệ hoặc quota còn đủ.
+- Một lần gọi thất bại không được trình bày là model đã kết nối thành công.
+- Không retry vô hạn khi quota đã cạn.
+
+Nếu một model chỉ tồn tại trong cấu hình cũ nhưng chưa xác minh được, hiển thị trạng thái UNVERIFIED hoặc UNAVAILABLE.
+
+Giữ nguyên mọi giới hạn do `limitsGovernor.ts` áp dụng. Model router không được vượt ngân sách bằng cách chuyển provider liên tục.
+
+# PHẦN 7 — V9 TRI THỨC NHÂN LOẠI
+
+Nâng cấp mục `V9 Tri thức Nhân loại` dựa trên RAG, taxonomy, search và knowledge modules hiện có.
+
+Mục tiêu không phải tuyên bố AI có toàn bộ tri thức nhân loại, mà là cải thiện khả năng truy xuất, kiểm chứng và giải thích.
+
+## Các chức năng cần xác minh và nâng cấp
+
+- Knowledge source registry.
+- Nguồn tài liệu và metadata.
+- Semantic/vector retrieval nếu đã được triển khai.
+- Tìm kiếm theo từ khóa khi phù hợp.
+- Taxonomy và phân loại chủ đề.
+- Chunking và metadata.
+- Citation/provenance.
+- Nguồn gốc thông tin và version.
+- Xử lý nội dung lỗi thời.
+- Kiểm soát truy cập và quyền sử dụng dữ liệu.
+- Phân biệt dữ liệu người dùng cung cấp với thông tin được truy xuất.
+- Hiển thị khi không tìm thấy nguồn phù hợp.
+
+Yêu cầu:
+
+1. Không tuyên bố đã truy xuất tri thức khi retrieval thực tế rỗng hoặc thất bại.
+2. Không tạo citation giả.
+3. Không tự bịa nguồn và URL.
+4. Không coi việc có dữ liệu trong Knowledge Cards là bằng chứng được phép dùng dữ liệu đó để huấn luyện.
+5. Phân biệt quyền đọc, quyền truy xuất, quyền caching, quyền storage và quyền training nếu registry quy định.
+6. Không bỏ qua `providerTermsRegistry.ts`.
+7. Không để dữ liệu trong tài liệu truy xuất ghi đè system policy hoặc tiết lộ secrets.
+8. Khi nguồn xung đột, trình bày sự khác biệt thay vì tự chọn một nguồn mà không có căn cứ.
+9. Ghi nhận nguồn theo khả năng của hệ thống hiện có.
+10. Không tuyên bố độ đầy đủ hoặc độ chính xác tuyệt đối.
+
+Nếu thiếu API search, embedding provider hoặc storage, ghi rõ NOT_CONFIGURED thay vì tạo chức năng giả.
+
+# PHẦN 8 — AI CORE (13 CONTRACTS)
+
+Tích hợp mục `AI Core (13 Contracts)` như một khu vực kiểm tra hợp đồng và các quy tắc giao tiếp giữa module.
+
+Bắt đầu bằng cách tìm 13 contracts thật trong repository.
+
+Không tự suy diễn rằng dự án đã có đúng 13 contracts hoạt động chỉ vì giao diện hiển thị con số 13.
+
+## Yêu cầu
+
+- Tìm schema, interface, type definitions và runtime validation hiện có.
+- Liệt kê tên và trách nhiệm của từng contract đã tìm thấy.
+- Kiểm tra producer/consumer và nơi sử dụng thực tế.
+- Kiểm tra việc truyền trạng thái, lỗi, model responses, tool results và audit references.
+- Phát hiện schema mismatch, trường bắt buộc bị thiếu và trạng thái không hợp lệ.
+- Bổ sung runtime validation tại các ranh giới API hoặc module nhạy cảm phù hợp.
+- Kiểm tra version compatibility.
+- Không thêm dependency kiểm định lớn nếu không cần thiết.
+- Không chuyển toàn bộ kiến trúc sang framework khác.
+- Không sửa đồng loạt mọi contract nếu chỉ một contract gây lỗi.
+
+Nếu thiếu contract:
+
+1. Liệt kê contract còn thiếu.
+2. Xác định các bên phụ thuộc.
+3. Định nghĩa contract phù hợp kiến trúc hiện tại.
+4. Thêm test contract.
+5. Cập nhật nơi sử dụng.
+6. Xác minh backward compatibility.
+7. Chỉ đánh dấu VERIFIED khi các test liên quan đã chạy.
+
+Tạo màn hình thể hiện:
+
+- Contract ID và tên.
+- Trạng thái implementation.
+- Các module đang sử dụng.
+- Validation/test result.
+- Lỗi gần nhất nếu có.
+- Version và thời điểm kiểm định.
+
+Màn hình phải lấy dữ liệu từ registry/API thực tế. Không hiển thị PASS cố định cho cả 13 contracts.
+
+# PHẦN 9 — GIẢI - KIỂM - SỬA
+
+Nâng cấp mục `Giải - Kiểm - Sửa` thành quy trình xử lý vấn đề có kiểm chứng, dựa trên mã nguồn và công cụ hiện có.
+
+Quy trình:
+
+DETECT → DIAGNOSE → SOLVE → VERIFY → REPAIR IF NEEDED → RETEST → REPORT.
+
+## DETECT
+
+- Thu thập lỗi từ các module.
+- Gắn lỗi với module/request/test liên quan.
+- Phân loại mức độ và điều kiện phát sinh.
+
+## DIAGNOSE
+
+- Xác định nguyên nhân có bằng chứng.
+- Phân biệt lỗi ứng dụng với lỗi quota, credentials hoặc hạ tầng bên ngoài.
+- Không suy đoán một nguyên nhân duy nhất khi log chưa hỗ trợ.
+
+## SOLVE
+
+- Đưa ra một patch nhỏ nhất có thể giải quyết lỗi.
+- Giữ nguyên API contract khi có thể.
+- Không xóa chức năng không liên quan.
+- Không thay secret hoặc policy bảo mật để né lỗi.
+
+## VERIFY
+
+- Chạy test liên quan.
+- Chạy build.
+- Kiểm tra các trường hợp hồi quy quan trọng.
+- So sánh kết quả trước/sau nếu có số liệu.
+- Không dùng việc một test PASS để tuyên bố toàn hệ thống đã an toàn.
+
+## REPAIR
+
+Chỉ sửa tiếp khi có bằng chứng từ kết quả kiểm tra.
+
+- Lưu checkpoint/version trước patch.
+- Không thực hiện patch không giới hạn.
+- Không tự chỉnh sửa production đang chạy mà không có cơ chế phê duyệt phù hợp.
+- Không tự thay đổi policy nhạy cảm.
+- Không tự phê duyệt các thao tác Tier 3.
+- Nếu patch thất bại, rollback hoặc giữ nguyên phiên bản tốt đã được kiểm chứng.
+
+## REPORT
+
+Mỗi lần sửa phải hiển thị:
+
+- Vấn đề ban đầu.
+- Nguyên nhân được xác định.
+- File thay đổi.
+- Test đã thực hiện.
+- Kết quả thật.
+- Regression risk.
+- Trạng thái cuối cùng.
+- Các bước còn cần người dùng thực hiện.
+
+Không tạo log hoặc kiểm thử giả. Không tuyên bố đã sửa một lỗi nếu chỉ nêu đề xuất.
+
+# PHẦN 10 — TRAINING GATE V23
+
+Giữ nguyên bảy tiêu chuẩn:
+
+1. Compute Infrastructure.
+2. Data Rights & IP.
+3. Compute Budget & Energy.
+4. Checkpoint & Recovery.
+5. Safety & Alignment.
+6. Legal & Export Compliance.
+7. Independent Hold-out Validation.
+
+Triển khai validator và lưu trữ bằng chứng theo mã nguồn hiện có.
+
+Yêu cầu:
+
+- Có thể thêm hoặc cập nhật bằng chứng thực tế.
+- Có thể chạy kiểm định thực tế.
+- Trạng thái được quyết định bởi backend.
+- Không cho client tự đặt một tiêu chuẩn thành VERIFIED.
+- Lưu audit trail.
+- Áp dụng default DENY cho các thao tác training khi điều kiện bắt buộc chưa đạt.
+- Kiểm tra lại gate khi training worker thực sự bắt đầu.
+- Không coi một bộ hồ sơ đầy đủ là bằng chứng pipeline GPU đang hoạt động.
+- Không cho phép bắt đầu training khi pipeline thực tế chưa được cấu hình.
+- Không chặn chat inference vì Training Gate chưa đạt.
+
+Sử dụng `limitsGovernor.ts`, `cryptoSubsystem.ts` và `providerTermsRegistry.ts` làm các thành phần bảo vệ hiện có thay vì tạo cơ chế thứ hai cạnh tranh với chúng.
+
+# PHẦN 11 — GIAO DIỆN VÀ TRẠNG THÁI THỰC
+
+Giữ phong cách giao diện hiện có, bao gồm các nhãn:
+
+- ALLOWED.
+- BLOCK.
+- TRIP CIRCUIT.
+- CONFIRM GATE.
+- VERIFIED.
+- UNVERIFIED.
+- NOT_CONFIGURED.
+- BLOCKED.
+
+Các trạng thái phải phản ánh dữ liệu thật.
+
+Bốn mục trên thanh điều hướng phải:
+
+- Có điều hướng thực.
+- Mở đúng màn hình.
+- Giữ trạng thái cần thiết.
+- Có loading, empty, success và error states.
+- Tôn trọng quyền truy cập.
+- Không hiển thị số liệu giả khi dữ liệu không tồn tại.
+- Không tạo nút chỉ có hiệu ứng nhưng không có action.
+- Không làm hỏng layout hiện tại trên desktop hoặc màn hình nhỏ.
+
+Nếu một module chưa được triển khai, giao diện phải hiển thị chính xác NOT_IMPLEMENTED hoặc NOT_CONFIGURED, kèm lý do phù hợp.
+
+Không dùng animation, màu sắc hoặc nhãn “Apex”, “Frontier”, “Universal” để che một chức năng thực tế chưa hoạt động.
+
+# PHẦN 12 — BẢO MẬT VÀ QUYỀN THỰC THI
+
+Rà soát ranh giới tin cậy:
+
+- Frontend không được tự quyết định quyền thực thi.
+- Mọi endpoint nhạy cảm phải xác thực và kiểm tra quyền tại backend.
+- Nội dung người dùng, tài liệu truy xuất và tool output phải được xử lý như dữ liệu không tin cậy.
+- Không cho phép prompt injection sửa limits, registry hoặc Training Gate.
+- Không đưa API keys vào frontend bundle.
+- Không log secret.
+- Không thực thi lệnh hệ thống từ nội dung không tin cậy.
+- Không bỏ qua audit logging bắt buộc.
+- Không cho phép công cụ tự phê duyệt hành động Tier 3.
+- Không cho phép một lần xác nhận được dùng cho một hành động khác.
+- Không cho phép một model/provider tự nâng quyền gọi model/tool của chính nó.
+- Không cho phép thay đổi policy nhạy cảm qua endpoint công khai không có authorization.
+
+Các test bảo mật phải chạy trong fixture an toàn, không dùng dữ liệu hoặc hành động phá hoại thật.
+
+# PHẦN 13 — TESTING SUITE TOÀN HỆ THỐNG
+
+Tạo hoặc nâng cấp test suite phù hợp với framework đang dùng.
+
+## Safety Console
+
+- Standard safe request được ALLOWED khi đáp ứng policy.
+- Prompt injection không thể vô hiệu hóa governor hoặc lấy secrets.
+- Các fixture an toàn về WMD/CBRN được phân loại theo policy.
+- Model call overflow bị chặn theo giới hạn thật.
+- Tool call overflow bị chặn theo giới hạn thật.
+- Agent loop kích hoạt circuit breaker.
+- Budget cap không bị né qua retries hoặc fallback.
+- Tier 3 không thể thực thi khi thiếu xác nhận hợp lệ.
+
+## Sensitive modules
+
+- Budget limit được thực thi tại backend.
+- Circuit breaker hoạt động theo cấu hình.
+- Crypto parent-hash validation kiểm tra đúng chain.
+- Sửa đổi ledger được phát hiện theo khả năng của thiết kế.
+- Provider chưa được phép bị DENY cho operation nhạy cảm.
+- Inference permission không tự cấp training permission.
+- Không có secret trong audit log.
+
+## Core features
+
+- V14 Frontier AI phản ánh provider/model thật.
+- V9 Knowledge System không tạo citation giả.
+- AI Core contracts được kiểm tra với contract thực.
+- Solve-Check-Fix chỉ báo sửa thành công sau test thật.
+- Training Gate vẫn bảo vệ Tầng B.
+- Tầng A inference không bị khóa chỉ vì Training Gate chưa đạt.
+
+## Server and deployment
+
+- Development server khởi động.
+- Production build.
+- Production start nếu môi trường cho phép.
+- API chat.
+- Streaming và error handling.
+- WebSocket preview nếu có khả năng test.
+- Regression tests của các chức năng đang có.
+
+Không chạy một vòng lặp vô hạn chỉ để làm test pass.
+
+Nếu môi trường không cho phép test browser, GPU, provider thật hoặc deployment bên ngoài, hãy ghi NOT_RUN hoặc UNVERIFIED.
+
+# PHẦN 14 — PERFORMANCE VÀ ĐỘ TIN CẬY
+
+Tối ưu sau khi các test chức năng cơ bản đã đạt:
+
+- Lazy-load các màn hình hoặc module nặng nếu phù hợp.
+- Tránh tải Three.js và thư viện nặng toàn cục nếu không cần.
+- Giảm re-render không cần thiết.
+- Quản lý request cancellation.
+- Giới hạn concurrency và retry.
+- Không giữ queue vô hạn.
+- Tránh lưu audit log không giới hạn.
+- Xử lý lỗi provider riêng biệt với lỗi server.
+- Đảm bảo một provider chậm không làm toàn bộ giao diện mất phản hồi.
+
+Đo kích thước bundle và số liệu thời gian trước/sau khi có thể. Không tự đưa ra số liệu hiệu năng chưa đo được.
+
+# PHẦN 15 — THỨ TỰ THỰC HIỆN BẮT BUỘC
+
+STAGE 0 — AUDIT
+
+Đọc repository, các sensitive modules, các chức năng hiện có và log.
+
+STAGE 1 — SERVER STABILITY
+
+Khôi phục development server, API và production build.
+
+STAGE 2 — SECURITY FOUNDATION
+
+Tích hợp và kiểm thử limitsGovernor, cryptoSubsystem và providerTermsRegistry.
+
+STAGE 3 — SAFETY CONSOLE
+
+Làm cho tám tình huống kiểm định thực sự chạy được.
+
+STAGE 4 — AI CORE CONTRACTS
+
+Xác minh 13 contracts, bổ sung validator và tests khi cần.
+
+STAGE 5 — FRONTIER AI
+
+Hoàn thiện provider/model status, routing, quota/error handling và fallback thực tế.
+
+STAGE 6 — UNIVERSAL KNOWLEDGE
+
+Củng cố search/RAG, provenance, taxonomy và citations.
+
+STAGE 7 — SOLVE-CHECK-FIX
+
+Triển khai quy trình chẩn đoán, sửa, kiểm thử và báo cáo.
+
+STAGE 8 — TRAINING GATE
+
+Hoàn thiện bảy validator, evidence management và server-side enforcement.
+
+STAGE 9 — UI AND PERFORMANCE
+
+Kết nối màn hình thật, cải thiện khả năng sử dụng và tối ưu hiệu năng.
+
+STAGE 10 — REGRESSION
+
+Chạy build, test suite và xác minh kết quả.
+
+STAGE 11 — FINAL REPORT
+
+Báo cáo thay đổi đã thực hiện và mọi blocker còn tồn tại.
+
+Không triển khai nhiều thay đổi nhạy cảm chưa kiểm thử cùng lúc. Nếu một stage gây regression, sửa hoặc rollback trước khi tiếp tục.
+
+# PHẦN 16 — TIÊU CHÍ CHẤP NHẬN CUỐI CÙNG
+
+Chỉ coi nhiệm vụ đạt khi có bằng chứng tương ứng:
+
+1. Repository không bị tạo lại hoặc mất chức năng hiện có.
+2. Server và build được kiểm tra độc lập.
+3. Tám tình huống an toàn được kết nối với logic thực.
+4. limitsGovernor thực sự hạn chế calls, tool calls và ngân sách.
+5. Circuit breaker có thể chặn loop theo policy.
+6. Tier 3 yêu cầu human confirmation thực sự.
+7. cryptoSubsystem được dùng để audit các sự kiện cần thiết.
+8. providerTermsRegistry thực sự áp dụng default DENY cho phạm vi thích hợp.
+9. V14 Frontier AI có trạng thái provider/model dựa trên dữ liệu thật.
+10. V9 Tri thức Nhân loại có provenance/citation đáng tin cậy theo khả năng retrieval.
+11. AI Core contracts được xác minh với các contract trong repository.
+12. Giải - Kiểm - Sửa chạy test trước khi báo đã sửa lỗi.
+13. Training Gate chặn thao tác thay đổi weights khi điều kiện chưa đạt.
+14. Tầng A inference không bị khóa chỉ vì Training Gate chưa đạt.
+15. Các trạng thái giao diện phản ánh kết quả backend.
+16. Không có secret bị ghi ra log hoặc frontend bundle.
+17. Test và build được báo cáo trung thực.
+
+# PHẦN 17 — BÁO CÁO CUỐI
+
+Sau khi sửa, trả về báo cáo:
+
+A. Root cause và bằng chứng.
+
+B. Files changed và mục đích từng file.
+
+C. Trạng thái từng chức năng:
+
+- VERIFIED.
+- IMPLEMENTED_UNVERIFIED.
+- NOT_IMPLEMENTED.
+- NOT_CONFIGURED.
+- BLOCKED.
+- FAILED.
+- ROLLED_BACK.
+- NEEDS_APPROVAL.
+
+D. Kết quả tám safety tests, bao gồm expected result và actual result.
+
+E. Kết quả tích hợp ba sensitive modules.
+
+F. Trạng thái V14 Frontier AI, V9 Tri thức Nhân loại, AI Core contracts và Giải - Kiểm - Sửa.
+
+G. Trạng thái bảy tiêu chuẩn Training Gate.
+
+H. Development server, production build, production startup và deployment.
+
+I. Test nào PASS, FAIL, BLOCKED hoặc NOT_RUN.
+
+J. Các bước người dùng còn phải thực hiện, chẳng hạn cấu hình secret, quota, quyền truy cập, GPU hoặc phê duyệt pháp lý.
+
+Không đánh dấu cả hệ thống VERIFIED chỉ vì build thành công. Không tự tuyên bố mọi chức năng hoạt động hoàn hảo.
+
+# MỆNH LỆNH CUỐI
+
+Hãy bắt đầu bằng việc đọc mã nguồn thật trong repository hiện có.
+
+Thực hiện trực tiếp các thay đổi cần thiết để nâng cấp NDAWG PRO — APEX INFINITY V23 theo toàn bộ đặc tả trên. Ưu tiên tính đúng đắn, khả năng kiểm chứng, an toàn, bảo toàn dữ liệu và tính ổn định.
+
+Không chỉ đưa ra kế hoạch. Không tạo giao diện giả. Không bỏ qua sensitive modules. Không tự nới lỏng policy để làm test đạt. Không tuyên bố đã hoàn thành các phần mà môi trường hiện tại không cho phép xác minh.
+
+Nếu một hạng mục bị chặn bởi hạ tầng, credentials, quyền truy cập hoặc dịch vụ ngoài, hãy hoàn thành các phần còn khả thi và báo cáo chính xác blocker đó.

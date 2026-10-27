@@ -1,0 +1,8 @@
+{
+  "name": "NDAWG PRO — APEX INFINITY",
+  "description": "Enterprise AI Orchestration, Universal Self-Healing, Gemini Quota Recovery, Multi-Model Router, and Rendering Integrity Platform.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

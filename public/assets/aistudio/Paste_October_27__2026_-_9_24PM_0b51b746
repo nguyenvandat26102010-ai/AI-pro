@@ -1,0 +1,800 @@
+# NDAWG PRO — APEX INFINITY V21
+# UNIFIED RECOVERY, RELIABILITY & FULL-SYSTEM UPGRADE
+## CRITICAL REPAIR + REAL AI ORCHESTRATION + SELF-HEALING + VERIFIED DEPLOYMENT
+
+Bạn đang làm việc trên dự án NDAWG PRO — APEX INFINITY hiện có trong Google AI Studio.
+
+Đây là nhiệm vụ khôi phục, sửa chữa và nâng cấp toàn hệ thống dựa trên mã nguồn thực tế. Không tạo dự án mới, không thay ứng dụng bằng bản demo, không chỉ đưa ra kế hoạch và không dừng lại sau khi phân tích.
+
+Mục tiêu là đưa ứng dụng trở lại trạng thái có thể khởi động, build, chạy chat AI thật và triển khai trong giới hạn của môi trường hiện có; sau đó nâng độ tin cậy, khả năng bảo trì, hiệu năng, hiển thị và kiểm thử của những mô-đun còn lại.
+
+==================================================
+PHẦN 0 — NGUYÊN TẮC KHÔNG ĐƯỢC VI PHẠM
+==================================================
+
+1. Kiểm tra repository và mã nguồn hiện có trước khi thay đổi bất kỳ cấu trúc nào.
+
+2. Giữ nguyên toàn bộ tính năng đang hoạt động, kiến trúc hợp lý, giao diện chính, dữ liệu, API contract và tích hợp của dự án. Không xóa chức năng chỉ để khiến build vượt qua.
+
+3. Không tạo nhiều module trùng chức năng. Tái sử dụng và củng cố các module đã có, đặc biệt nếu dự án đã chứa:
+   - MainChatView.tsx
+   - chatService.ts
+   - server.ts
+   - vite.config.ts
+   - limitsGovernor.ts
+   - cryptoSubsystem.ts
+   - providerTermsRegistry.ts
+   - TrainingGate
+   - model registry, router, telemetry hoặc RAG modules
+
+   Đây chỉ là các tên cần kiểm tra nếu thực sự tồn tại, không phải yêu cầu tạo tất cả những tệp này.
+
+4. Không thay đổi hàng loạt dependency, framework hoặc phiên bản package nếu chưa xác minh khả năng tương thích.
+
+5. Không viết lại toàn bộ dự án chỉ vì một module gặp lỗi. Ưu tiên thay đổi nhỏ, có thể kiểm tra, có khả năng rollback.
+
+6. Không giả lập thành công của API, không tạo câu trả lời AI giả để che lỗi nhà cung cấp và không tạo log kiểm thử giả.
+
+7. Phân biệt rõ:
+   - Mã nguồn đã sửa.
+   - Tính năng đã được kiểm thử.
+   - Tính năng đã viết nhưng chưa kiểm chứng.
+   - Tính năng thiếu API key hoặc quyền truy cập.
+   - Lỗi đến từ hạ tầng bên ngoài.
+   - Tính năng chưa được triển khai.
+
+8. Không tự tuyên bố hệ thống có toàn bộ tri thức nhân loại, khả năng tự huấn luyện vô hạn, độ chính xác tuyệt đối hoặc tốc độ bảo đảm nếu không có bằng chứng.
+
+9. Không in API key, token, secret, dữ liệu nhạy cảm hoặc giá trị bí mật của biến môi trường ra giao diện, log, báo cáo hay mã nguồn phía client.
+
+10. Không chỉ tăng timeout, tắt cảnh báo, ẩn lỗi hoặc nâng giới hạn kích thước bundle để khiến báo cáo trông tốt hơn.
+
+11. Nếu một thao tác không thể thực hiện trong môi trường Google AI Studio hiện tại, tiếp tục hoàn thành các phần còn khả thi và đưa ra blocker cụ thể.
+
+12. Không hỏi người dùng những thông tin đã có trong repository hoặc log. Hãy tự kiểm tra trước.
+
+==================================================
+PHẦN 1 — KIỂM TOÁN TOÀN BỘ REPOSITORY
+==================================================
+
+Bắt đầu bằng cách kiểm tra:
+
+- Cấu trúc file và thư mục.
+- package.json và lockfile.
+- Phiên bản Node.js, npm/pnpm/yarn và framework.
+- Vite, Rolldown, TypeScript, React và Three.js nếu đang sử dụng.
+- Script dev, build, test, lint và start.
+- Cấu hình frontend, backend và production.
+- Entry point, API routes, middleware và cách serve static assets.
+- Cấu hình biến môi trường và cơ chế xác thực.
+- Các provider AI, model registry, fallback router và quota manager.
+- Hệ thống render Markdown, LaTeX, HTML, streaming và Unicode.
+- RAG, Search grounding, Maps grounding và nguồn trích dẫn.
+- Microphone, speech-to-text, text-to-speech, image/video generation.
+- TrainingGate, khả năng tự cải thiện và các cơ chế kiểm soát.
+- Firebase, Google Workspace, công cụ sinh học và Three.js nếu có.
+- Telemetry, logging, error handling và test suite hiện tại.
+
+Tìm các điểm khởi tạo bị lỗi, dependency bị thiếu, import sai, cấu hình không tương thích, promise không được xử lý, module phụ thuộc vòng, tiến trình bị crash và các luồng fallback lặp vô hạn.
+
+Trước khi chỉnh sửa lớn:
+- Xác định nguyên nhân hoặc giả thuyết có bằng chứng.
+- Lưu trạng thái thay đổi trước đó nếu môi trường hỗ trợ.
+- Tạo kế hoạch khôi phục ngắn.
+- Ưu tiên sửa lỗi đầu tiên khiến các bước tiếp theo thất bại.
+
+Không chỉ sửa thông báo lỗi cuối cùng. Phải truy ngược log về lỗi phát sinh đầu tiên có liên quan.
+
+==================================================
+PHẦN 2 — P0: KHÔI PHỤC DEVELOPMENT SERVER
+==================================================
+
+Tình trạng cần xử lý:
+
+- “Máy chủ phát triển không khởi động được.”
+- “Ứng dụng không thể triển khai.”
+- “Đã xảy ra lỗi ngoài dự kiến.”
+- Trước đây Vite đã báo WebSocket đóng trước khi kết nối hoàn tất.
+- Build từng thành công, nhưng điều đó không bảo đảm server có thể khởi động hoặc production có thể chạy.
+
+Hãy kiểm tra theo thứ tự:
+
+A. Lệnh khởi động
+
+- Xác minh lệnh mà môi trường thực sự sử dụng.
+- Kiểm tra các script trong package.json.
+- Xác nhận file entry point có tồn tại.
+- Kiểm tra lỗi import, ESM/CJS, TypeScript, đường dẫn alias và package bị thiếu.
+- Kiểm tra server có thoát ngay sau khi khởi động hay không.
+- Kiểm tra có hai tiến trình tranh chấp cùng một port hoặc khởi động trùng lặp không.
+- Không tự ý thay lệnh start bằng một lệnh khác trước khi hiểu kiến trúc hiện tại.
+
+B. Cấu hình backend và port
+
+- Xác minh backend sử dụng đúng cổng mà môi trường cấp.
+- Với Cloud Run, kiểm tra `process.env.PORT`, địa chỉ bind và điều kiện sẵn sàng của server. Khi phù hợp với môi trường, server cần lắng nghe trên `0.0.0.0`, không chỉ `127.0.0.1`.
+- Không hardcode port khi môi trường yêu cầu cổng động.
+- Không sửa mã Cloud Run nếu ứng dụng thực tế không sử dụng Cloud Run.
+- Kiểm tra server không bị dừng sau một request hoặc phụ thuộc sai vào chế độ development.
+- Kiểm tra các endpoint chính có phản hồi theo thiết kế.
+
+C. Frontend và backend
+
+- Nếu dự án là full-stack, xác minh cách chạy frontend và backend.
+- Kiểm tra API base URL, route prefix, proxy, CORS và đường dẫn static assets.
+- Đảm bảo route API không bị nhầm thành route frontend.
+- Đảm bảo lỗi của một yêu cầu AI không làm crash toàn bộ server.
+- Không để lỗi unhandled rejection, exception hoặc lỗi parsing chưa được xử lý khiến tiến trình thoát.
+
+D. Biến môi trường
+
+- Phân loại biến nào bắt buộc để khởi động, biến nào chỉ cần cho tính năng cụ thể.
+- Tích hợp AI tùy chọn chưa có key không được làm toàn ứng dụng crash nếu kiến trúc cho phép hoạt động không cần tích hợp đó.
+- Hiển thị `NOT_CONFIGURED` khi người dùng gọi tính năng thiếu cấu hình.
+- Nếu thiếu biến môi trường thật sự bắt buộc, nêu đúng tên biến nhưng không tiết lộ giá trị bí mật.
+
+E. Tiêu chí xác minh
+
+- Thực hiện lệnh start thực tế.
+- Xác nhận tiến trình còn chạy.
+- Xác nhận server lắng nghe đúng port.
+- Gửi HTTP request nếu môi trường hỗ trợ.
+- Đọc lại log sau khởi động và xác nhận không có lỗi fatal.
+- Không đánh dấu server đã sửa nếu chỉ chạy build thành công.
+
+==================================================
+PHẦN 3 — P1: KHẮC PHỤC VITE, HMR VÀ WEBSOCKET
+==================================================
+
+Log cũ có:
+
+- `[vite] không thể kết nối với websocket`
+- `WebSocket đã đóng mà chưa được mở`
+- Lỗi xuất hiện trong `@vite/client`
+- Cảnh báo `__dirname` trong `vite.config.ts`.
+
+Yêu cầu:
+
+1. Xác minh phiên bản Vite và cơ chế config loader hiện tại.
+2. Kiểm tra host, port, protocol, path, proxy và môi trường preview.
+3. Tìm nguyên nhân WebSocket đóng trước khi kết nối hoàn chỉnh.
+4. Kiểm tra server restart, timeout, reverse proxy và vấn đề TLS nếu có bằng chứng liên quan.
+5. Chỉ sửa HMR/WebSocket theo cấu hình tương thích với môi trường thực tế.
+6. Không đặt domain hoặc port cố định khi chưa xác minh.
+7. Không tắt WebSocket, HMR, error overlay hoặc cảnh báo để che nguyên nhân.
+8. Xử lý lỗi kết nối lại để tránh unhandled rejection nếu mã ứng dụng trực tiếp quản lý socket.
+9. Kiểm tra lại việc tải trang và cập nhật module khi file thay đổi.
+10. Phân biệt lỗi WebSocket của preview với lỗi API AI và lỗi production server.
+
+Nếu nguyên nhân nằm ngoài repository, hãy cung cấp bằng chứng và xác định cấu hình bên ngoài cần kiểm tra. Không tự tuyên bố đã sửa hạ tầng bên ngoài bằng một thay đổi code.
+
+==================================================
+PHẦN 4 — P2: SỬA CẤU HÌNH VITE VÀ PRODUCTION BUILD
+==================================================
+
+Kiểm tra cảnh báo `__dirname` trong `vite.config.ts`.
+
+- Nếu Node.js/runtime đang dùng hỗ trợ `import.meta.dirname`, có thể sử dụng cách đó.
+- Nếu cần tương thích rộng hơn, cân nhắc `fileURLToPath(import.meta.url)` kết hợp `dirname` từ `node:path`.
+- Bảo đảm các alias và đường dẫn root giữ nguyên.
+- Không chỉ đặt `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` để giấu cảnh báo.
+
+Tiếp theo:
+
+- Xác minh build output thực tế.
+- Kiểm tra entry point và asset paths.
+- Kiểm tra script production start.
+- Xác minh backend phục vụ frontend đúng thư mục.
+- Kiểm tra package cần cho production không bị đặt nhầm vào devDependencies.
+- Không thay đổi cấu hình build bằng cách đoán.
+- Không dùng một build thành công làm bằng chứng rằng deployment đã hoạt động.
+
+==================================================
+PHẦN 5 — P3: SỬA GEMINI 429 VÀ MODEL ROUTER
+==================================================
+
+Lỗi thực tế trước đây:
+
+`429 RESOURCE_EXHAUSTED`
+
+Thông báo nêu rằng hạn mức hiện tại đã vượt quá giới hạn. Router còn ghi log chuyển sang ứng viên tiếp theo nhưng tên model được ghi lại vẫn là `gemini-3.6-flash`.
+
+Đây là hạng mục ưu tiên cao sau khi server khởi động ổn định.
+
+A. Phân loại lỗi
+
+Thiết kế error classifier để phân biệt:
+
+- Rate limit tạm thời.
+- Requests per minute.
+- Tokens per minute.
+- Requests per day hoặc quota đã cạn.
+- Billing/quota restriction.
+- Project hoặc credential không được phép.
+- Model ID không hợp lệ hoặc không còn được hỗ trợ.
+- Lỗi đầu vào.
+- Timeout.
+- Dịch vụ quá tải.
+- Lỗi mạng.
+- Lỗi hệ thống nội bộ.
+
+Phân loại dựa trên status code, error status, nội dung lỗi, metadata, quota information và retry information thực tế. Không dựa vào một chuỗi lỗi duy nhất.
+
+B. Retry có giới hạn
+
+- Chỉ retry lỗi có khả năng tạm thời.
+- Dùng exponential backoff và jitter.
+- Giới hạn số lần thử và thời gian tổng.
+- Tuân thủ retry delay được nhà cung cấp trả về nếu có.
+- Không tiếp tục retry khi request đã bị hủy.
+- Không retry vô hạn với quota ngày đã cạn hoặc billing restriction.
+- Không tạo nhiều request cùng lúc cho một lỗi vốn đã xác định không thể tự khắc phục.
+
+C. Model fallback thật
+
+- Kiểm tra model registry hiện có.
+- Chuẩn hóa và loại bỏ model ID trùng.
+- Ghi nhận chính xác model đã thử, trạng thái, nguyên nhân thất bại và bước fallback tiếp theo.
+- Không ghi “đã chuyển sang ứng viên khác” nếu thực tế vẫn dùng cùng model.
+- Không gán tên mô hình thay thế theo suy đoán.
+- Xác minh model ID bằng danh sách hỗ trợ hoặc API khám phá mô hình của nhà cung cấp khi có thể.
+- Kiểm tra model tương thích với tác vụ, quyền truy cập và credential hiện tại.
+- Chỉ chuyển provider nếu provider đó thực sự được tích hợp và cấu hình.
+- Không giả định model khác trong cùng dự án sẽ vượt qua tất cả hạn mức chung của dự án.
+
+D. Circuit breaker và quota governor
+
+Nếu đã có `limitsGovernor.ts`, circuit breaker hoặc module tương đương, hãy củng cố module đó thay vì tạo hệ thống mới trùng chức năng.
+
+- Ngừng gửi request đến model đang gặp lỗi kéo dài.
+- Áp dụng cooldown có căn cứ và có thể điều chỉnh.
+- Lưu trạng thái đúng phạm vi, không khiến một lỗi request làm toàn hệ thống bị khóa vô thời hạn.
+- Phục hồi có kiểm soát sau cooldown.
+- Đặt giới hạn concurrency.
+- Thêm request cancellation và timeout hợp lý.
+- Không giữ hàng đợi tăng vô hạn.
+- Không đánh dấu một model khả dụng chỉ vì cooldown đã hết; nếu cần, xác minh bằng một lần thử được giới hạn.
+
+E. Trạng thái khi không còn model
+
+Nếu toàn bộ ứng viên thất bại:
+
+- Trả lỗi cấu trúc thống nhất.
+- Hiển thị thông báo rõ ràng bằng ngôn ngữ giao diện.
+- Giải thích rằng yêu cầu chưa được xử lý.
+- Hướng dẫn người dùng kiểm tra usage, rate limits, quyền truy cập hoặc billing.
+- Giữ nguyên lịch sử hội thoại.
+- Không tạo nội dung giả thay cho câu trả lời.
+- Không đẩy nguyên JSON nhà cung cấp ra giao diện.
+- Không làm crash server.
+
+F. Provider registry
+
+Kiểm tra các provider có thật trong repository. Có thể gồm Gemini, OpenAI, Anthropic, DeepSeek hoặc các provider khác đã tích hợp, nhưng không được giả định tất cả đều đã hoạt động.
+
+Mỗi provider cần biểu diễn trạng thái xác thực thực tế, model được hỗ trợ, khả năng tương thích tác vụ và nguyên nhân chưa sẵn sàng nếu có.
+
+Thiếu API key phải được đánh dấu `NOT_CONFIGURED`, không được trình bày như lỗi mạng hoặc “high traffic” nếu chưa có bằng chứng.
+
+==================================================
+PHẦN 6 — P4: KHÔI PHỤC AI CHAT THẬT TRƯỚC TIÊN
+==================================================
+
+Sau khi server hoạt động, kiểm tra end-to-end luồng chat:
+
+1. Người dùng gửi tin nhắn.
+2. Frontend xác thực dữ liệu đầu vào.
+3. Chat service tạo request đúng schema.
+4. Backend chọn provider/model.
+5. Request được gửi đến nhà cung cấp thật.
+6. Streaming được xử lý đúng nếu có.
+7. Response được chuẩn hóa.
+8. Nội dung được hiển thị và lưu đúng theo kiến trúc hiện tại.
+9. Lỗi được xử lý mà không làm ứng dụng crash.
+
+Kiểm tra:
+
+- Không có endpoint giả trả câu trả lời cố định.
+- Không có mock bị nhầm thành provider thật trong production.
+- Không bỏ quên `await` hoặc để Promise bị từ chối không xử lý.
+- Không lặp gửi request do component render nhiều lần.
+- Không lặp gửi do retry frontend cùng retry backend mà không có giới hạn chung.
+- Không mất câu trả lời một phần khi stream kết thúc bất thường.
+- Không để nội dung của request trước xuất hiện trong request sau.
+- Không để lỗi API làm mất toàn bộ giao diện chat.
+
+Nếu không có credentials hoặc quota hợp lệ, hãy xác minh được đến điểm có thể và báo chính xác blocker. Không cố tạo câu trả lời giả để làm cho bài test có vẻ đạt.
+
+==================================================
+PHẦN 7 — P5: SỬA LỖI MARKDOWN, UNICODE VÀ RENDERING
+==================================================
+
+Các lỗi hiển thị trước đây gồm:
+
+- Markdown hiện nguyên `\*\*`.
+- Đường kẻ ngang hiển thị `\---`.
+- Xuất hiện `&#x20;`.
+- Markdown link lồng nhau bị hỏng.
+- JSON lỗi thô hiển thị vào chat.
+- Công thức toán học không hiển thị đúng.
+- Ký tự tiếng Việt, tiếng Hàn hoặc streaming bị biến dạng.
+
+Kiểm tra toàn bộ pipeline từ provider response đến DOM.
+
+A. Markdown parser
+
+- Xác minh parser đang sử dụng và phiên bản tương thích.
+- Phân biệt Markdown thật với code block, text literal và nội dung escape.
+- Không xóa ngược dấu gạch chéo một cách toàn cục.
+- Không tự ý giải mã code block hoặc biến nội dung code thành HTML.
+- Chuẩn hóa lỗi escape chỉ trong đúng ngữ cảnh.
+- Giữ nguyên nội dung literal khi người dùng thực sự muốn hiển thị dấu `*`, `\`, `#`, `_` hoặc ký tự đặc biệt.
+
+B. HTML entity và sanitization
+
+- Xác định nguồn của `&#x20;` và các entity bị hiển thị nguyên dạng.
+- Xử lý entity theo một cơ chế nhất quán, tránh double-encoding/double-decoding.
+- Sanitize HTML nếu parser hoặc tính năng hiện tại hỗ trợ HTML.
+- Không cho phép nội dung không tin cậy thực thi JavaScript, event handler hoặc script injection.
+- Không dùng `dangerouslySetInnerHTML` với dữ liệu chưa được sanitize.
+
+C. Markdown link
+
+- Xử lý link hợp lệ, link không hoàn chỉnh trong streaming và dấu ngoặc bị lồng.
+- Chỉ cho phép URL protocol phù hợp.
+- Giữ an toàn cho liên kết mở trang ngoài.
+- Không tự ý sửa link theo cách tạo URL khác với ý định người dùng.
+
+D. Math/LaTeX
+
+- Kiểm tra delimiter `\( ... \)`, `\[ ... \]`, `$...$` hoặc cú pháp thực sự được dự án hỗ trợ.
+- Không sửa biểu thức toán học bên trong code block.
+- Xác minh rendering khi stream chưa hoàn thành công thức.
+- Nếu thư viện toán chưa được cài đặt, báo rõ; không giả định thư viện tồn tại.
+
+E. Streaming và Unicode
+
+- Bảo đảm chunk streaming không làm vỡ cặp surrogate hoặc ký tự tiếng Việt, Hàn, Anh.
+- Không chạy sanitizer quá mức làm mất nội dung.
+- Xử lý trạng thái stream kết thúc, error và cancellation.
+- Không hiển thị response đang dở dang như câu trả lời hoàn chỉnh nếu request thực sự thất bại.
+
+Tạo test cases cụ thể cho tất cả ví dụ lỗi ở trên.
+
+==================================================
+PHẦN 8 — P6: TỐI ƯU BUNDLE VÀ HIỆU NĂNG
+==================================================
+
+Build trước đây báo:
+
+- 1.744 module được chuyển đổi.
+- JavaScript bundle khoảng 2.077 kB chưa gzip.
+- Gzip khoảng 555 kB.
+- Cảnh báo một số chunk lớn hơn 500 kB.
+
+Đây là cảnh báo tối ưu hiệu năng, không mặc nhiên là nguyên nhân deploy thất bại.
+
+Hãy:
+
+1. Đo kích thước bundle trước khi thay đổi.
+2. Xác định module thực sự chiếm dung lượng.
+3. Kiểm tra dependency nặng được import toàn cục.
+4. Lazy-load những màn hình hoặc tính năng nặng khi kiến trúc cho phép.
+5. Cân nhắc `React.lazy`/`Suspense` cho route hoặc modal phù hợp.
+6. Ưu tiên tải có điều kiện cho cảnh Three.js, công cụ sinh học, màn quản trị hoặc tính năng ít dùng nếu chúng thực sự được tích hợp.
+7. Tránh chia chunk làm phá vỡ thứ tự module, side effects hoặc tạo vòng phụ thuộc.
+8. Dùng cấu hình Rolldown/Vite đúng với phiên bản thực tế.
+9. So sánh kích thước sau sửa và kiểm tra lại các màn hình.
+10. Không tăng `chunkSizeWarningLimit` để tuyên bố rằng đã tối ưu.
+11. Không xóa tính năng chỉ để giảm KB.
+
+Đánh giá hiệu năng bằng số liệu thực tế nếu môi trường cho phép: kích thước tài nguyên, thời gian khởi động, thời gian phản hồi, số request lặp và trạng thái lỗi. Không đặt chỉ tiêu thời gian tùy tiện rồi tuyên bố đạt.
+
+==================================================
+PHẦN 9 — P7: SỬA THREE.JS VÀ CẢNH 3D
+==================================================
+
+Các log trước đây có:
+
+- `THREE.Clock: ... deprecated. Please use THREE.Timer instead.`
+- Cảnh báo độ chính xác số trong `THREE.WebGLProgram`.
+
+A. Three.Timer
+
+- Xác minh phiên bản Three.js cài đặt.
+- Tìm mọi vị trí dùng `THREE.Clock`.
+- Kiểm tra `getDelta`, `getElapsedTime`, `start`, `stop` và mọi thao tác liên quan.
+- Chuyển sang `THREE.Timer` nếu API đó tồn tại và tương thích với phiên bản dự án.
+- Gọi `update()` đúng vị trí trong vòng lặp cập nhật theo API tương ứng.
+- Giữ nguyên delta-time và hành vi pause/resume.
+- Tránh tích lũy listener hoặc timer khi component mount/unmount.
+- Kiểm tra tab ẩn và việc animation tiếp tục sau khi quay lại.
+- Không sửa trực tiếp `node_modules`.
+
+B. WebGLProgram/shader
+
+- Xác định chính xác shader, material hoặc phép tính gây cảnh báo.
+- Xác nhận có lỗi biên dịch shader hoặc chỉ là cảnh báo số học.
+- Không thay shader không cần thiết nếu chưa xác định tác động.
+- Nếu phải chỉnh sửa, giữ đúng renderer và khả năng tương thích hiện có.
+- Không xóa tất cả console warning để che lỗi.
+- Nếu không thể chạy browser/GPU test, đánh dấu phần này chưa được xác minh trực quan.
+
+==================================================
+PHẦN 10 — P8: SELF-HEALING ENGINE CÓ KIỂM SOÁT
+==================================================
+
+Nâng cấp cơ chế tự phát hiện và sửa lỗi nếu đã có module tương ứng. Không tuyên bố hệ thống tự thay đổi mã nguồn nếu chức năng thực tế chưa tồn tại.
+
+Quy trình:
+
+DETECT → CLASSIFY → DIAGNOSE → PROPOSE → CHECKPOINT → PATCH → TEST → VERIFY → MONITOR → ROLLBACK IF NEEDED.
+
+Yêu cầu:
+
+- Thu thập lỗi từ server, frontend, API và test suite.
+- Gắn lỗi với module, request hoặc phiên bản có liên quan bằng ID không nhạy cảm.
+- Xác định mức độ nghiêm trọng và nguyên nhân có bằng chứng.
+- Ưu tiên lỗi làm server không khởi động, deployment thất bại, chat AI không hoạt động hoặc dữ liệu có nguy cơ bị sai.
+- Tách lỗi môi trường bên ngoài khỏi lỗi code.
+- Tạo patch nhỏ, dễ review.
+- Chạy test có liên quan trước khi chấp nhận patch.
+- Không tự sửa mã production đang chạy bằng nội dung chưa kiểm tra.
+- Không tự động sửa biến môi trường hoặc quản lý bí mật.
+- Không chạy command phá hủy dữ liệu.
+- Không lặp lại bản sửa thất bại vô hạn.
+- Rollback nếu test quan trọng bị hồi quy hoặc patch làm hệ thống kém ổn định hơn.
+- Ghi nhận trạng thái cuối của patch.
+
+Nếu không có quyền thay đổi tự động, chỉ tạo patch hoặc đề xuất thay đổi ở mức cho phép. Không giả vờ có quyền triển khai hoặc rollback bên ngoài repository.
+
+==================================================
+PHẦN 11 — P9: TELEMETRY, LOGGING VÀ EXECUTION RECEIPTS
+==================================================
+
+Kiểm tra hệ thống telemetry hiện tại trước khi mở rộng.
+
+Mỗi operation quan trọng có thể ghi nhận:
+
+- Operation ID.
+- Thời gian bắt đầu và kết thúc.
+- Module hoặc provider.
+- Model ID thực tế nếu có.
+- Trạng thái thành công/thất bại.
+- Loại lỗi đã chuẩn hóa.
+- Số lần retry.
+- Fallback đã thử và kết quả.
+- Request cancellation/timeout.
+- Test hoặc health check liên quan.
+
+Chỉ ghi dữ liệu đã quan sát. Không ghi kết quả tưởng tượng, không đoán thời gian phản hồi và không tạo receipt thành công giả.
+
+Không ghi:
+- API keys.
+- Authorization headers.
+- Secret.
+- Nội dung riêng tư không cần thiết.
+- Dữ liệu nhạy cảm trong URL hoặc exception.
+
+Nếu có `admin_telemetry.json` hoặc cơ chế tương đương, kiểm tra xem đây có thực sự là phương thức lưu trữ hiện có. Không tạo file JSON mới thay thế database hoặc telemetry system chỉ vì tên đó xuất hiện trong kế hoạch cũ.
+
+Dữ liệu lỗi cần đủ để chẩn đoán nhưng không được khiến hệ thống bị rò rỉ thông tin hoặc phình bộ nhớ vô hạn.
+
+==================================================
+PHẦN 12 — P10: TÍNH NĂNG HỌC TẬP VÀ TRI THỨC
+==================================================
+
+Bảo toàn hoặc nâng cấp những chức năng đã tồn tại, đặc biệt:
+
+- Toán học từ cơ bản đến nâng cao.
+- Ngữ văn.
+- Tiếng Anh.
+- Tiếng Hàn.
+- Khoa học và các môn học khác.
+- Giải thích nhiều bước, kiểm tra điều kiện và trình bày đáp án.
+- Giải phương trình, kiểm tra phép biến đổi và kết quả cuối.
+- Sử dụng công cụ tính toán hoặc xác minh nếu đã tích hợp và phù hợp với bài toán.
+
+Nguyên tắc:
+
+1. Không bịa nguồn, công thức hoặc dữ kiện.
+2. Khi dùng công cụ tính toán, ghi nhận kết quả thực tế của công cụ.
+3. Khi không đủ dữ kiện, nêu phần chưa xác định.
+4. Phân biệt thông tin từ nguồn đã truy xuất với suy luận của mô hình.
+5. Không tuyên bố đã kiểm chứng toán học chỉ vì câu trả lời có nhiều bước.
+6. Duy trì khả năng giải thích phù hợp trình độ người học.
+7. Nếu nguồn không đủ hoặc công cụ lỗi, báo rõ và tiếp tục trong giới hạn có thể.
+
+Kiểm tra `TrainingGate` nếu module này tồn tại.
+
+- Xác định chính xác TrainingGate bảo vệ hành động nào.
+- Không cho phép yêu cầu từ giao diện vượt qua kiểm soát phía server.
+- Tách việc sử dụng dữ liệu để cải thiện chất lượng phản hồi khỏi việc huấn luyện thật sự.
+- Không tuyên bố mô hình đã được huấn luyện hoặc cập nhật trọng số nếu không có pipeline huấn luyện thực sự.
+- Không tự cấp quyền truy cập dữ liệu hoặc dịch vụ ngoài phạm vi cho phép.
+
+==================================================
+PHẦN 13 — P11: SEARCH GROUNDING, RAG VÀ NGUỒN
+==================================================
+
+Giữ nguyên các chức năng tìm kiếm và RAG đang tồn tại.
+
+Nếu có Google Search grounding:
+
+- Xác minh đúng API và model hỗ trợ.
+- Giữ metadata và citation thực tế được trả về.
+- Không tạo citation giả.
+- Không tự gắn nguồn vào câu trả lời không sử dụng nguồn đó.
+- Phân biệt kiến thức nền với thông tin vừa truy xuất.
+
+Nếu có Google Maps grounding:
+
+- Kiểm tra API được sử dụng và các yêu cầu attribution thực tế.
+- Giữ nguyên nguồn, liên kết và metadata cần thiết.
+- Không giả lập thông tin bản đồ hoặc trạng thái địa điểm.
+
+Nếu có RAG:
+
+- Kiểm tra truy xuất tài liệu, chunk, metadata, nguồn gốc và thứ tự liên quan.
+- Không tuyên bố tìm thấy thông tin nếu kết quả rỗng.
+- Xác định được nguồn của câu trả lời khi dữ liệu cho phép.
+- Tách lỗi embedding, retrieval, index và generation để chẩn đoán riêng.
+- Không để việc retrieval thất bại làm crash toàn bộ chat nếu kiến trúc cho phép xử lý graceful degradation.
+
+==================================================
+PHẦN 14 — P12: MULTIMODAL VÀ TÍCH HỢP NGOÀI
+==================================================
+
+Kiểm tra từng tính năng hiện có trước khi sửa:
+
+A. Microphone và STT
+
+- Kiểm tra quyền microphone, MediaRecorder, MIME type, upload payload, endpoint và xử lý lỗi.
+- Phân biệt không có quyền, không có thiết bị, ghi âm rỗng, sai định dạng, API key thiếu và lỗi nhà cung cấp.
+- Không hiển thị văn bản nhận dạng giả nếu speech-to-text chưa chạy.
+
+B. TTS
+
+- Kiểm tra trạng thái cấu hình API.
+- Nếu thiếu `ELEVENLABS_API_KEY` hoặc credential của provider TTS đang dùng, trả trạng thái `NOT_CONFIGURED`.
+- Không tuyên bố đã phát âm thanh khi chưa có audio payload hợp lệ.
+- Xử lý timeout, hủy request và lỗi giải mã audio.
+
+C. Image/video generation
+
+- Kiểm tra endpoint, request schema, model ID, file upload và response payload thực tế.
+- Không mặc định model ID cũ là hợp lệ.
+- Không giả vờ đã tạo ảnh/video nếu nhà cung cấp trả lỗi.
+- Giữ rõ trạng thái loading, completed, failed và cancelled.
+
+D. Provider bên ngoài
+
+- Kiểm tra những tích hợp thực sự đã có.
+- Thiếu credentials phải được báo đúng.
+- Không tuyên bố OpenAI, Anthropic, DeepSeek, Google Workspace hoặc dịch vụ ngoài khác đã kết nối chỉ dựa trên tên xuất hiện trong giao diện.
+- Không để tích hợp tùy chọn thiếu key làm server không thể khởi động.
+
+==================================================
+PHẦN 15 — P13: CỦNG CỐ TÍNH AN TOÀN VÀ BẢO MẬT
+==================================================
+
+Kiểm tra:
+
+- Secret chỉ được giữ ở nơi phù hợp phía server.
+- Không đưa private API key vào biến `VITE_*` hoặc frontend bundle.
+- Validate dữ liệu đầu vào từ client.
+- Sanitize nội dung render.
+- Bảo vệ endpoint khỏi request không hợp lệ.
+- Kiểm soát quyền truy cập các chức năng quản trị.
+- Kiểm tra giới hạn kích thước upload và request nếu có.
+- Tránh log token, cookies hoặc headers bí mật.
+- Tránh SSRF, path traversal và injection nếu ứng dụng có endpoint nhận URL hoặc file.
+- Không chạy shell command từ nội dung không tin cậy.
+- Không tự cấp quyền rộng hơn cho service account.
+- Không sửa Firebase rules hoặc quyền Workspace một cách mù quáng.
+
+Mọi thay đổi bảo mật phải phù hợp kiến trúc và được kiểm tra hồi quy.
+
+==================================================
+PHẦN 16 — P14: REGRESSION TEST VÀ RECOVERY TEST
+==================================================
+
+Tạo hoặc cập nhật test phù hợp với công cụ thực tế của dự án.
+
+Nhóm A: Server
+
+1. Script development start hợp lệ.
+2. Server không thoát ngay sau khi khởi động.
+3. Server lắng nghe đúng port.
+4. Production start hoạt động nếu môi trường cho phép kiểm thử.
+5. Thiếu key của tích hợp tùy chọn không làm server crash.
+
+Nhóm B: AI
+
+6. Gemini trả 429 tạm thời.
+7. Quota cạn, không retry vô hạn.
+8. Model ID trùng không bị gọi lặp.
+9. Fallback thật hoạt động khi provider khác được cấu hình hợp lệ.
+10. Tất cả model thất bại thì UI thể hiện trạng thái thất bại.
+11. Request cancellation dừng retry.
+12. Không có lời đáp giả sau lỗi API.
+
+Nhóm C: WebSocket và rendering
+
+13. WebSocket mất kết nối không làm giao diện bị unhandled rejection.
+14. Markdown `\*\*`, `\---` và entity bị lỗi được xử lý đúng theo ngữ cảnh.
+15. Link không hợp lệ được xử lý an toàn.
+16. LaTeX được kiểm tra trên thư viện thực tế.
+17. Unicode tiếng Việt, tiếng Hàn và tiếng Anh không bị biến dạng.
+18. Streaming kết thúc hoặc hủy giữa chừng không làm hỏng hội thoại.
+
+Nhóm D: Three.js và hiệu năng
+
+19. Scene 3D khởi động được.
+20. Timer không bị cập nhật nhiều lần sai cách.
+21. Unmount không rò rỉ animation loop hoặc listener.
+22. Các module lazy-load mở đúng.
+23. Các chức năng không liên quan vẫn hoạt động sau khi giảm bundle.
+
+Nhóm E: Các chức năng hiện hữu
+
+24. Chat cơ bản.
+25. Grounding/RAG nếu đã tích hợp.
+26. Microphone/STT nếu đã tích hợp.
+27. TTS nếu đã tích hợp.
+28. Các modal hoặc endpoint tạo media nếu đã tích hợp.
+29. Các tính năng Workspace/Firebase/Bioscience nếu có.
+30. Test cũ không bị vô tình loại bỏ.
+
+Chỉ chạy test có thật, và chỉ báo PASS khi thực sự đạt. Không tạo test chỉ để luôn trả về `true`.
+
+Nếu môi trường không hỗ trợ browser hoặc GPU, ghi rõ `UNVERIFIED` thay vì giả lập kết quả kiểm thử thực tế.
+
+==================================================
+PHẦN 17 — P15: QUY TRÌNH THỰC THI VÀ ROLLBACK
+==================================================
+
+Thực hiện theo các giai đoạn:
+
+STAGE 0 — AUDIT
+Đọc cấu trúc dự án, package, scripts, config và log có sẵn.
+
+STAGE 1 — SERVER RECOVERY
+Sửa nguyên nhân khiến development server không khởi động hoặc bị crash.
+
+STAGE 2 — DEPLOYMENT RECOVERY
+Kiểm tra build, entry point, port, production start và cấu hình triển khai.
+
+STAGE 3 — AI CHAT RECOVERY
+Xác minh end-to-end chat và xử lý lỗi provider.
+
+STAGE 4 — QUOTA & MODEL ROUTER
+Sửa 429, retry, model registry, cooldown, fallback và logging.
+
+STAGE 5 — RENDERING
+Sửa Markdown, Unicode, links, LaTeX và streaming.
+
+STAGE 6 — INTEGRATIONS
+Kiểm tra các mô-đun multimodal, grounding, RAG và chức năng đang có.
+
+STAGE 7 — PERFORMANCE
+Tối ưu bundle, lazy loading, Vite và Three.js.
+
+STAGE 8 — REGRESSION TESTS
+Chạy test, build và xác minh hành vi.
+
+STAGE 9 — FINAL REPORT
+Báo cáo bằng chứng, trạng thái, blockers và thay đổi thực tế.
+
+Sau mỗi giai đoạn:
+
+- Chạy kiểm thử liên quan.
+- Không chồng nhiều thay đổi chưa kiểm tra.
+- Nếu một thay đổi làm hỏng giai đoạn trước, sửa hoặc rollback.
+- Không tiếp tục tối ưu tính năng phụ nếu server vẫn không khởi động.
+- Không dừng công việc chỉ vì đã tạo xong một bản kế hoạch.
+- Không lặp vô hạn khi môi trường thiếu quyền hoặc dependency không thể truy cập.
+
+==================================================
+PHẦN 18 — BÁO CÁO CUỐI CÙNG BẮT BUỘC
+==================================================
+
+Khi kết thúc, xuất báo cáo với các mục sau:
+
+1. ROOT CAUSE
+   - Nguyên nhân chính đã xác định.
+   - Log hoặc bằng chứng hỗ trợ.
+   - Nếu chưa xác định được, nêu chính xác dữ liệu còn thiếu.
+
+2. FILES CHANGED
+   - File.
+   - Vấn đề.
+   - Thay đổi thực tế.
+   - Kiểm thử liên quan.
+
+3. DEVELOPMENT SERVER
+   - STARTED
+   - FAILED
+   - BLOCKED
+   - UNVERIFIED
+
+4. PRODUCTION BUILD
+   - PASS
+   - FAIL
+   - NOT_RUN
+
+5. PRODUCTION STARTUP
+   - PASS
+   - FAIL
+   - BLOCKED
+   - UNVERIFIED
+
+6. DEPLOYMENT
+   - VERIFIED
+   - FAILED
+   - BLOCKED
+   - NOT_TESTED
+
+7. AI CHAT
+   - VERIFIED
+   - IMPLEMENTED_UNVERIFIED
+   - NOT_CONFIGURED
+   - BLOCKED
+   - FAILED
+
+8. MODEL ROUTER
+   - Liệt kê provider/model đã thực sự thử.
+   - Retry/fallback thực tế.
+   - Những model không truy cập được.
+   - Nguyên nhân quota nếu có đủ bằng chứng.
+
+9. RENDERING
+   - Các test Markdown, LaTeX, link và Unicode đã chạy.
+
+10. PERFORMANCE
+    - Bundle trước/sau nếu đo được.
+    - Các tối ưu đã triển khai.
+    - Các cảnh báo còn lại.
+
+11. THREE.JS
+    - Trạng thái Clock/Timer.
+    - Trạng thái shader.
+    - Kiểm thử trực quan nếu có.
+
+12. TEST RESULTS
+    - PASS / FAIL / BLOCKED / NOT_RUN cho từng test.
+
+13. REMAINING BLOCKERS
+    - API key còn thiếu.
+    - Quota hoặc billing.
+    - Quyền triển khai.
+    - Hạ tầng preview.
+    - Test cần browser/GPU.
+    - Bất kỳ blocker nào khác có bằng chứng.
+
+14. NEXT REQUIRED ACTION
+    - Chỉ nêu các bước thật sự còn cần người dùng thao tác.
+
+Dùng các trạng thái chính xác:
+
+`VERIFIED`
+`IMPLEMENTED_UNVERIFIED`
+`NOT_CONFIGURED`
+`BLOCKED`
+`FAILED`
+`ROLLED_BACK`
+`NEEDS_APPROVAL`
+
+Không dùng “100% hoàn thành”, “hoạt động hoàn hảo”, “đã sửa toàn bộ lỗi” nếu chưa có bằng chứng.
+
+==================================================
+MỆNH LỆNH CUỐI
+==================================================
+
+Hãy thực hiện trực tiếp trên repository hiện có, bắt đầu bằng việc xác định nguyên nhân khiến máy chủ phát triển không khởi động và ứng dụng không thể triển khai.
+
+Ưu tiên khôi phục server và production trước mọi nâng cấp khác. Sau đó khôi phục chat AI thật, sửa Gemini quota/router, sửa rendering, xác minh các integrations và hoàn thành kiểm thử.
+
+Không chỉ trả lời bằng giải thích, đoạn mã mẫu hoặc kế hoạch. Hãy chỉnh sửa các file phù hợp trong giới hạn của môi trường.
+
+Nếu bạn không thể sửa hoặc triển khai một phần vì môi trường không cung cấp quyền, file, credential hoặc công cụ cần thiết, hãy hoàn thành những phần có thể, nêu bằng chứng của blocker và tuyệt đối không tuyên bố việc chưa thực hiện đã thành công.

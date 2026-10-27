@@ -1,0 +1,899 @@
+# NDAWG PRO — APEX INFINITY V18
+# UNIVERSAL SELF-HEALING • GEMINI QUOTA RECOVERY • MULTI-MODEL INTELLIGENCE • RENDERING INTEGRITY
+## FULL PROJECT UPGRADE — INSPECT, IMPLEMENT, TEST, VERIFY
+
+## 0. MASTER DIRECTIVE
+
+You are the Principal AI Architect, Senior Full-Stack Engineer, AI Reliability Engineer, Security Engineer, and Test Engineer responsible for upgrading the EXISTING NDAWG PRO — APEX INFINITY project.
+
+Build V18 by combining and extending V12's Universal AI Core, V17's Self-Healing Engine, and the current Gemini Extended Suite.
+
+Do not rebuild the application from scratch.
+
+Inspect the actual repository before making changes. Preserve existing working features, project configuration, user data, and established architecture unless a change is technically necessary.
+
+Do not return only a plan, a new standalone file, a simulated dashboard, or a report claiming that implementation is complete.
+
+Modify the real project files available in the current environment. Run the checks that the environment supports. Report only evidence-backed results.
+
+The primary goals are:
+
+1. Eliminate incorrect handling of Gemini 429 quota errors.
+2. Reduce avoidable response latency without bypassing provider quotas.
+3. Implement reliable model routing and provider fallback.
+4. Fix malformed Markdown, Unicode, HTML entities, LaTeX, and streaming output.
+5. Implement safe self-healing and verified code repair.
+6. Integrate existing Gemini, Google Search, Google Maps, STT, TTS, image, and video features where genuinely supported and configured.
+7. Preserve Google Workspace, Bioscience, Three.js, Firebase, RAG, conversation history, and administration features already present in the codebase.
+8. Make all feature statuses, diagnostics, and completion reports truthful.
+
+Do not assume that model names, API endpoints, API keys, or feature integrations described in previous reports are valid. Verify every provider and capability against the current project and official documentation.
+
+---
+
+# 1. PHASE ZERO — REPOSITORY AUDIT
+
+Inspect the real project, including relevant files such as:
+
+- `package.json`
+- `tsconfig.json`
+- `vite.config.ts`
+- `server.ts`
+- `src/components/MainChatView.tsx`
+- `src/services/chatService.ts`
+- `src/testing/extendedCapabilities.test.ts`
+- `src/core`
+- `src/modules`
+- `src/types`
+- `src/absorption`
+- `limitsGovernor.ts`
+- `cryptoSubsystem.ts`
+- `providerTermsRegistry.ts`
+- `TrainingGate`
+- Existing model registry and provider adapters.
+- Existing rendering and streaming components.
+- Existing authentication and Firebase configuration.
+- Existing Workspace and Bioscience services.
+- Existing Three.js components.
+- Existing RAG, memory, and persistence systems.
+
+Use the actual paths found in the repository. Do not create duplicate modules merely to match the names in this specification.
+
+Before editing:
+
+1. Identify the frontend-to-backend request path.
+2. Identify every Gemini call site.
+3. Identify where model names are configured.
+4. Identify how API errors are parsed and displayed.
+5. Identify where retry and fallback are implemented.
+6. Identify how messages are streamed, stored, and rendered.
+7. Identify whether the claimed tests actually exist.
+8. Determine which functions are real, mocked, or unconfigured.
+9. Record existing user changes and relevant test baselines.
+10. Create a safe checkpoint or isolated working copy if supported.
+
+Implement the highest-priority corrections after this audit. Do not stop after writing an audit report.
+
+---
+
+# 2. CRITICAL FIX — GEMINI 429 QUOTA CLASSIFIER
+
+Create or improve a shared error classifier, preferably reusing the current error-handling architecture.
+
+Suggested interface:
+
+`classifyProviderError(error, provider, model)`
+
+Normalize the error into a typed structure with:
+
+- `provider`
+- `model`
+- `httpStatus`
+- `providerStatus`
+- `errorCategory`
+- `quotaMetric`
+- `quotaLimit`
+- `retryable`
+- `retryAfterMs`
+- `userMessage`
+- `requestId`
+- `timestamp`
+
+Handle at least these cases:
+
+### A. Temporary rate limit
+
+Examples include per-minute request limits and input-token limits.
+
+Behavior:
+
+- Respect a valid provider-supplied retry delay.
+- Apply bounded exponential backoff with jitter.
+- Limit retries.
+- Stop when the request deadline expires.
+- Avoid repeated retry loops across multiple layers.
+- Update the actual quota/circuit-breaker state.
+- Inform the user when recovery is still pending.
+
+### B. Daily quota exhausted
+
+Detect error descriptions such as:
+
+- `GenerateRequestsPerDayPerProjectPerModel-FreeTier`
+- `Generate content requests per day limit exceeded`
+- Explicit provider messages identifying daily quota exhaustion.
+
+Behavior:
+
+- Do not retry every few seconds.
+- Record a quota cooldown for the relevant project/model/metric.
+- Respect the provider's stated reset information when available.
+- Show the exact category of restriction.
+- Offer another genuinely configured and compatible provider if available.
+- Otherwise allow an explicit retry after the cooldown or configuration change.
+
+### C. Quota limit equals zero
+
+If the response reports a limit of `0`, treat the model/capability as unavailable under the current quota configuration.
+
+Do not repeatedly call that model.
+
+Do not automatically assume that another Gemini model has available quota. Check its actual configuration and handle any failure it returns.
+
+Do not claim that upgrading a plan will necessarily solve every restriction. Explain that the active project, model, quota, and billing configuration must be checked.
+
+### D. Billing or spend restriction
+
+Do not repeatedly retry requests when the provider reports depleted credits, a spend cap, or a billing restriction.
+
+Return a clear configuration or billing status without exposing secrets.
+
+### E. Temporary provider overload
+
+Handle a genuine temporary overload separately from daily quota exhaustion.
+
+Use limited retries only when the error is classified as transient and the deadline permits.
+
+### F. Invalid request, credentials, or permissions
+
+Do not automatically retry errors caused by:
+
+- Invalid API key.
+- Missing credentials.
+- Permission denial.
+- Unsupported model.
+- Unsupported request schema.
+- Invalid request parameters.
+
+Return an actionable diagnostic.
+
+Never disguise all these cases as “model is slow because of high traffic.”
+
+---
+
+# 3. CORRECT USER-FACING QUOTA MESSAGES
+
+Replace raw provider JSON dumps with localized, readable messages.
+
+Implement a message builder that distinguishes Vietnamese, Korean, and English.
+
+Examples:
+
+**Temporary rate limit**
+
+"Model đang nhận quá nhiều yêu cầu. Hệ thống sẽ thử lại có giới hạn và thông báo nếu chưa thể khôi phục."
+
+**Daily quota exhausted**
+
+"Model này đã hết hạn mức sử dụng trong ngày của dự án hiện tại. Hệ thống đã tạm dừng các lần gọi lặp lại. Bạn có thể chọn một model khác đã được cấu hình và còn khả dụng, hoặc kiểm tra hạn mức và thông tin thanh toán."
+
+**Model unavailable**
+
+"Model hiện không khả dụng với cấu hình hoặc hạn mức hiện tại. Chưa có kết quả từ model này."
+
+**No fallback configured**
+
+"Yêu cầu chưa được hoàn thành vì không có model dự phòng phù hợp đang khả dụng. Nội dung yêu cầu của bạn vẫn được giữ để có thể thử lại."
+
+**Temporary overload**
+
+"Nhà cung cấp đang tạm thời quá tải. Hệ thống sẽ thử lại trong giới hạn cho phép."
+
+The message must reflect the actual classified error.
+
+Never report an API quota failure as a successful AI response.
+
+Never display raw JSON, stack traces, API keys, or internal server paths in the normal chat interface.
+
+Provide an expandable diagnostic view for authorized administrators.
+
+---
+
+# 4. QUOTA-AWARE MODEL ROUTER
+
+Create or improve the existing model router instead of introducing a duplicate.
+
+Every provider/model entry must contain verified metadata where available:
+
+- Provider ID.
+- Model ID.
+- Supported task types.
+- Supported modalities.
+- Supported grounding tools.
+- Streaming support.
+- Structured-output support.
+- Authentication status.
+- Last actual health-check result.
+- Current circuit-breaker state.
+- Known quota restrictions.
+- Last observed error.
+- Configuration status.
+- Evidence timestamp.
+
+Use truthful statuses:
+
+- `READY`
+- `DEGRADED`
+- `COOLDOWN`
+- `QUOTA_EXHAUSTED`
+- `NOT_CONFIGURED`
+- `UNSUPPORTED`
+- `BLOCKED`
+- `UNKNOWN`
+
+A model must not be marked `READY` merely because its name is listed in a configuration file.
+
+## Routing algorithm
+
+For each request:
+
+1. Classify the requested task.
+2. Identify required capabilities.
+3. Find compatible configured providers.
+4. Exclude unsupported or quota-blocked candidates.
+5. Exclude candidates currently in a relevant circuit-breaker cooldown.
+6. Rank the remaining candidates by measured latency, compatibility, observed reliability, and cost when actual data is available.
+7. Invoke the selected provider.
+8. Normalize and validate the response.
+9. Use a compatible fallback only if the error and request policy permit it.
+10. Return the result with truthful status and source metadata.
+
+Do not use random routing.
+
+Do not switch providers when the user has explicitly locked a model unless the UI clearly requests permission or the user has enabled an appropriate fallback policy.
+
+Do not send private user content to a new provider unless the existing privacy policy and user permissions allow it.
+
+## Model identifiers
+
+Audit every model ID already used in the codebase, including:
+
+- `gemini-3.8-flash`
+- `gemini-3.6-flash`
+- `gemini-3.1-flash-lite`
+- `gemini-4-argon`
+- `gemini-3.5-transcribe`
+- `gemini-nano-banana-2.1`
+- `gemini-omni-1.1-flash`
+
+These are audit targets, not guaranteed valid or available model IDs.
+
+Verify each against current official documentation and the configured API.
+
+If a model ID is invalid, unavailable, preview-only, or unsupported for a capability, do not silently substitute an unverified model.
+
+Use an explicit, validated capability registry.
+
+Do not assume that changing the model ID will create additional quota.
+
+---
+
+# 5. LATENCY ENGINE — FASTER WITHOUT FALSE CLAIMS
+
+Improve real response latency through measurement and efficient execution.
+
+Implement:
+
+- Request-level timing.
+- Provider latency metrics.
+- Time-to-first-token where streaming is supported.
+- Total response time.
+- Queue delay where a real queue exists.
+- Retry duration.
+- Grounding duration when measurable.
+- Rendering duration where measurable.
+- Timeout and cancellation tracking.
+- Request deduplication where semantically safe.
+- AbortController or equivalent cancellation.
+- Bounded concurrency.
+- Efficient context selection.
+- Avoidance of redundant provider calls.
+- Avoidance of unnecessary sequential operations.
+- Cache reuse only when permitted and semantically correct.
+
+Do not run multiple full model requests concurrently for the same user message unless the task explicitly requires it and the cost/privacy policy permits it.
+
+Do not cache private data across users.
+
+Do not bypass authentication, provider quotas, rate limits, or usage restrictions to make the system appear faster.
+
+Do not display fabricated claims such as "response under 1 second" without actual measurements.
+
+When the provider is quota-blocked, communicate that the issue is availability, not ordinary latency.
+
+---
+
+# 6. CIRCUIT BREAKER AND RECOVERY GOVERNOR
+
+Integrate with the existing `limitsGovernor.ts`.
+
+Use separate state where appropriate for:
+
+- Provider.
+- Model.
+- Capability.
+- Error category.
+- Quota dimension.
+
+Required states:
+
+`CLOSED → OPEN → HALF_OPEN → CLOSED`
+
+Behavior:
+
+- `CLOSED`: requests may proceed within normal limits.
+- `OPEN`: block requests known to fail repeatedly for a relevant reason.
+- `HALF_OPEN`: allow only a small controlled health probe after an eligible cooldown.
+- `CLOSED`: resume only after a successful, valid probe.
+
+Daily quota exhaustion must not trigger constant half-open probes before the expected reset.
+
+A configuration error must not be treated as a transient outage.
+
+Prevent duplicate retries across the frontend, service layer, SDK, and backend.
+
+Enforce hard retry limits, concurrency limits, request deadlines, and budget controls.
+
+Persist circuit state only through an actual storage mechanism supported by the deployment. If it is memory-only, label it as process-local.
+
+---
+
+# 7. V17 SELF-HEALING — EXTEND, DO NOT REPLACE
+
+Integrate the existing self-healing concepts into the new router and error pipeline.
+
+The repair flow must be:
+
+`DETECT → CLASSIFY → DIAGNOSE → PROPOSE → CHECKPOINT → PATCH → TEST → VERIFY → MONITOR → ACCEPT OR ROLLBACK`
+
+For transient API errors, use runtime recovery instead of code patching.
+
+For a missing API key, report `NOT_CONFIGURED`; do not invent a key or automatically alter the security model.
+
+For an invalid model ID, validate the configured catalog before changing configuration.
+
+For repeated rendering errors, create a minimal reproducible test before modifying the renderer.
+
+For build errors, inspect the actual compiler output and fix the root cause.
+
+For data errors, preserve the original data and use a reversible recovery path when available.
+
+For security-sensitive changes, require appropriate approval.
+
+Never claim that automatic code repair is available unless the application has a real mechanism to create/apply patches and verify them.
+
+Never let a model-generated patch bypass file boundaries, permissions, tests, or rollback safeguards.
+
+---
+
+# 8. UNIVERSAL RENDER INTEGRITY ENGINE
+
+Implement or improve a shared response pipeline.
+
+Suggested stages:
+
+`RAW RESPONSE → STREAM ASSEMBLY → CONTENT CLASSIFICATION → SAFE NORMALIZATION → MARKDOWN PARSING → MATH RENDERING → SAFE HTML RENDERING → FINAL DISPLAY`
+
+Do not apply destructive string replacements directly to all generated text.
+
+## 8.1 Preserve valid Markdown
+
+Correctly handle:
+
+- `**bold**`
+- `*italic*`
+- Headings.
+- Lists.
+- Tables.
+- Blockquotes.
+- Horizontal rules.
+- Links.
+- Inline code.
+- Fenced code blocks.
+- Inline math.
+- Display math.
+- Mixed Vietnamese, Korean, and English.
+- Unicode symbols and emoji.
+
+Do not convert legitimate Markdown into visible escape characters.
+
+For example, valid `**text**` should be rendered as bold, not displayed with visible backslashes.
+
+## 8.2 HTML entity handling
+
+Detect accidental encoding such as:
+
+- `&#x20;`
+- `&amp;`
+- `&lt;`
+- `&gt;`
+
+Decode only where the content's context proves that decoding is appropriate.
+
+Do not blindly decode all entities in code blocks, URLs, user text, or already-rendered HTML.
+
+Prevent double escaping.
+
+Do not inject unsanitized model output into the DOM.
+
+## 8.3 Malformed Markdown links
+
+Detect malformed links such as a URL embedded inside another Markdown link.
+
+Normalize or repair only when the intended destination can be determined unambiguously.
+
+Otherwise display the original URL as readable text and preserve the information.
+
+Validate URL schemes and block unsafe schemes.
+
+Do not fabricate replacement links.
+
+## 8.4 LaTeX and mathematics
+
+Support the delimiters configured for the existing math renderer.
+
+Test:
+
+- `\(x+y\)`
+- `\[x+y\]`
+- `$x+y$`
+- `$$x+y$$`
+
+Avoid interpreting currency values as equations without context.
+
+Do not rewrite mathematical operators or alter numerical meaning.
+
+If a formula cannot be parsed, preserve the original formula and display a safe fallback rather than crashing the chat.
+
+## 8.5 Streaming integrity
+
+Ensure partial streaming chunks are not treated as complete Markdown documents too early.
+
+Handle:
+
+- Incomplete fenced code blocks.
+- Partially received math delimiters.
+- Duplicate chunks.
+- Reconnection.
+- Cancelled requests.
+- Out-of-order events where relevant.
+- Final stream completion.
+- Partial failure.
+
+Prevent duplicate message rendering.
+
+Preserve the raw response separately from any derived rendering representation when compatible with the current data model.
+
+## 8.6 Unicode integrity
+
+Ensure UTF-8 and Unicode-safe processing across:
+
+- Vietnamese diacritics.
+- Korean Hangul.
+- English.
+- Emoji.
+- Mathematical symbols.
+- Mixed-language messages.
+
+Do not normalize away meaningful characters.
+
+Add regression tests for the exact malformed examples supplied by the user.
+
+---
+
+# 9. TRUTHFUL EXECUTION RECEIPTS AND TELEMETRY
+
+Fix success messages that report a tool or model as successful without evidence.
+
+Every provider operation should produce a structured result containing, where applicable:
+
+- Request ID.
+- Capability ID.
+- Provider and model.
+- Start and finish time.
+- Actual duration.
+- Status.
+- Error category.
+- Whether a response was returned.
+- Whether grounding was used.
+- Source annotations.
+- Verification status.
+
+Distinguish these states:
+
+- `REQUESTED`
+- `STARTED`
+- `COMPLETED`
+- `FAILED`
+- `PARTIAL`
+- `BLOCKED`
+- `NOT_CONFIGURED`
+- `NOT_VERIFIED`
+
+A successful RAG lookup must not be used as evidence that a Gemini call succeeded.
+
+A fast local rule engine must not be presented as a successful live Google Search request.
+
+Do not claim that a plugin completed verification unless its actual operation and required validation succeeded.
+
+Do not fabricate latency measurements.
+
+Do not write a success receipt before the relevant operation finishes.
+
+Store telemetry using the project's existing persistence architecture. Preserve historical records according to the existing retention policy.
+
+Redact API keys, tokens, credentials, and unnecessary sensitive user data.
+
+---
+
+# 10. GOOGLE SEARCH AND GOOGLE MAPS GROUNDING
+
+Inspect the current implementation of the grounding controls in `MainChatView.tsx` and the backend request handler.
+
+Verify the actual SDK, API version, model compatibility, and tool schema against current official documentation.
+
+Use the supported tool names and request formats for the selected API.
+
+Where the configured API supports them, implement the appropriate Google Search and Google Maps grounding tools.
+
+Requirements:
+
+1. Grounding mode is explicit and visible to the user.
+2. `OFF` means no grounding tool is attached.
+3. Search grounding uses a compatible provider/model and supported tool schema.
+4. Maps grounding uses a compatible provider/model and supported tool schema.
+5. Search and Maps errors are handled separately from generation errors.
+6. Returned citations and Maps source annotations are preserved.
+7. Sources are displayed with the correct attribution and destination URL.
+8. Grounding failure is not disguised as successful grounded output.
+9. Grounding cost and usage are monitored where data is provided.
+10. No claim is made that the entire internet or all Google data is accessible.
+
+Do not manually invent grounding citations.
+
+If Maps grounding is unavailable, explain that the map-specific lookup did not complete. A normal model answer may still be offered if it is clearly labeled as not Maps-grounded.
+
+Keep the existing toggle UI if functional. Repair the actual integration rather than replacing it with decorative controls.
+
+---
+
+# 11. MULTIMODAL RELIABILITY
+
+Audit the real implementations of:
+
+- Microphone recording.
+- Speech-to-text.
+- Text-to-speech.
+- Image generation.
+- Image editing.
+- Video generation.
+- File and image attachments.
+- Media playback.
+
+For each capability, verify:
+
+- Real provider integration.
+- Actual model ID.
+- Required API configuration.
+- Supported input format.
+- Supported output format.
+- Request schema.
+- Timeout and cancellation.
+- Actual returned media.
+- Error mapping.
+- UI loading and completion state.
+
+Do not assume that a model supporting text generation also supports audio, image generation, or video.
+
+Do not claim `gemini-3.5-transcribe`, `gemini-nano-banana-2.1`, or `gemini-omni-1.1-flash` is available until its current support and access have been verified.
+
+For microphone access:
+
+- Request browser permission through the appropriate browser API.
+- Handle permission denial gracefully.
+- Stop media tracks after use.
+- Prevent duplicate recordings.
+- Release resources on component unmount.
+- Distinguish microphone permission errors from provider errors.
+- Do not fabricate transcripts.
+
+For image/video generation:
+
+- Display success only when a real result is returned and validated.
+- Keep generated media attached to the correct request.
+- Do not create fake image/video URLs.
+- Show unavailable capability and configuration requirements honestly.
+
+---
+
+# 12. GOOGLE WORKSPACE, FIREBASE, BIOSCIENCE, AND THREE.JS
+
+Preserve existing functionality and repair integrations based on actual code.
+
+## Google Workspace
+
+Audit Tasks, Drive, Chat, OAuth, and Firestore.
+
+Handle user cancellation such as `auth/popup-closed-by-user` as a normal recoverable state.
+
+Do not report a cancelled sign-in as an application crash or successful authentication.
+
+Keep authentication and authorization checks intact.
+
+## Bioscience
+
+Audit integrations for:
+
+- AlphaFold.
+- PubChem.
+- Europe PMC.
+- Reactome.
+
+Verify each external endpoint, response schema, attribution, and error path.
+
+Do not present a simulated response as a live scientific result.
+
+Do not treat a successful API request as scientific validation of every conclusion.
+
+## Three.js 3D experience
+
+Check the real rendering loop, cleanup, frame scheduling, resource disposal, and browser performance.
+
+Prevent duplicate animation loops and leaked GPU resources.
+
+Do not claim a fixed 60 FPS unless measured under the relevant conditions.
+
+Keep the game responsive when optional sound or visual assets fail.
+
+---
+
+# 13. UNIVERSAL CAPABILITY REGISTRY
+
+Ensure every feature is registered through one shared capability system or an equivalent existing architecture.
+
+Each entry should describe:
+
+- Capability ID.
+- Supported tasks.
+- Required configuration.
+- Required permissions.
+- Compatible providers.
+- Input and output schemas.
+- Timeout policy.
+- Retry policy.
+- Health-check method.
+- Actual status.
+- Last verification evidence.
+
+Possible statuses:
+
+`READY`, `DEGRADED`, `COOLDOWN`, `QUOTA_EXHAUSTED`, `NOT_CONFIGURED`, `UNSUPPORTED`, `BLOCKED`, `UNKNOWN`.
+
+The UI, router, diagnostics, and self-healing engine must use the same capability source of truth.
+
+Do not maintain separate hard-coded status lists that disagree with one another.
+
+Do not display a feature as ready simply because a button is visible.
+
+---
+
+# 14. SECURITY AND PRIVACY
+
+Preserve and integrate the existing:
+
+- `limitsGovernor.ts`
+- `cryptoSubsystem.ts`
+- `providerTermsRegistry.ts`
+- `TrainingGate`
+- Authentication and authorization.
+- Secret management.
+- User data policies.
+
+Requirements:
+
+- Keep provider secrets on the server or in the deployment's supported secret-management system.
+- Never expose secrets in browser bundles.
+- Never include credentials in diagnostic output.
+- Respect provider terms for caching, storage, and training.
+- Do not use conversation history as model training data without the required authorization and actual pipeline.
+- Treat external documents and retrieved webpages as untrusted input.
+- Enforce tool permissions on the backend.
+- Restrict administrative diagnostics.
+- Prevent model-generated repairs from weakening security controls.
+- Keep data deletion and destructive migrations behind appropriate safeguards.
+
+Do not disable security protections to make tests pass.
+
+---
+
+# 15. TEST SUITE — ADD REGRESSION COVERAGE
+
+Extend the existing test suite, including `src/testing/extendedCapabilities.test.ts` if that file exists.
+
+Do not assume existing tests pass until executed.
+
+## Quota tests
+
+Test:
+
+1. Transient RPM limit.
+2. TPM limit.
+3. Daily quota exhausted.
+4. Quota limit equals zero.
+5. Billing restriction.
+6. Missing API key.
+7. Invalid API key.
+8. Temporary provider overload.
+9. Invalid model ID.
+10. Provider fallback available.
+11. No compatible fallback.
+12. Retry limit reached.
+13. Retry-after parsing.
+14. Circuit breaker opening and recovery.
+
+Verify that daily quota exhaustion does not trigger repeated requests.
+
+## Rendering tests
+
+Test the supplied examples involving:
+
+- Visible backslashes before Markdown.
+- Broken horizontal rules.
+- `&#x20;`.
+- Nested malformed Markdown URLs.
+- Raw provider JSON.
+- Vietnamese diacritics.
+- Korean text.
+- Inline and display math.
+- Partial streaming delimiters.
+- Duplicate streaming chunks.
+- Unclosed code blocks.
+
+Verify that content remains readable and its meaning is preserved.
+
+## Receipt tests
+
+Test that:
+
+- RAG success does not imply model success.
+- A provider failure never produces a success receipt.
+- Grounding citations come from actual response annotations.
+- Latency is measured from actual timestamps.
+- Mock results are clearly identified as mocks.
+- An unconfigured capability never appears as ready.
+
+## Existing functionality tests
+
+Run the available tests for:
+
+- Chat and conversation history.
+- Model routing.
+- Google Search and Maps.
+- STT/TTS.
+- Image/video generation.
+- Workspace and Firebase.
+- Bioscience.
+- Three.js.
+- RAG.
+- Authentication and authorization.
+
+Use mocked providers for isolated tests where appropriate, but distinguish mock tests from live API verification.
+
+---
+
+# 16. REQUIRED EXECUTION ORDER
+
+Implement in this priority order.
+
+### P0 — Stop misleading and repeated quota errors
+
+Fix the 429 classifier, daily quota cooldown, quota-limit-zero handling, retry bounds, and user-facing messages.
+
+### P1 — Restore readable answers
+
+Fix Markdown, Unicode, entity decoding, LaTeX, raw JSON leakage, and streaming assembly.
+
+### P2 — Stabilize core chat
+
+Fix error propagation, cancellation, duplicate submissions, provider timeout, and truthful completion state.
+
+### P3 — Implement quota-aware routing
+
+Integrate compatible provider fallback and circuit breakers with actual provider configuration.
+
+### P4 — Integrate V17 self-healing
+
+Use diagnostics, root-cause analysis, safe patching, testing, and rollback only where supported.
+
+### P5 — Verify Google grounding
+
+Audit Search and Maps tool configuration, source annotations, model compatibility, and error handling.
+
+### P6 — Verify multimodal and existing extensions
+
+Repair microphone, STT, TTS, image/video, Workspace, Bioscience, and Three.js integrations where the code and credentials support them.
+
+### P7 — Verify all changes
+
+Run type checking, linting, targeted tests, full tests where feasible, and production build.
+
+Do not spend time creating new architecture documents while P0 and P1 remain unfixed.
+
+Do not replace real implementation with mock responses.
+
+---
+
+# 17. FINAL REPORT — EVIDENCE REQUIRED
+
+Return a Vietnamese report containing:
+
+1. Root causes identified from actual code.
+2. Files actually modified.
+3. Changes made to 429 and quota handling.
+4. Changes made to routing and fallback.
+5. Rendering defects fixed.
+6. Self-healing operations implemented.
+7. Google grounding and multimodal integrations verified.
+8. Commands actually executed.
+9. Actual results for lint, type checks, tests, and build.
+10. Features still unconfigured or blocked.
+11. Remaining defects and next steps.
+
+Use these statuses:
+
+- `VERIFIED`
+- `IMPLEMENTED_UNVERIFIED`
+- `NOT_CONFIGURED`
+- `BLOCKED`
+- `MOCK`
+- `FAILED`
+- `ROLLED_BACK`
+- `NEEDS_APPROVAL`
+
+Do not claim `132/132 tests PASS`, a successful build, or a completed integration unless the current environment actually ran and verified that result.
+
+Do not claim the system has all global knowledge or can repair every possible error.
+
+Do not claim that switching models guarantees more quota.
+
+---
+
+# FINAL EXECUTION COMMAND
+
+Inspect the actual NDAWG PRO — APEX INFINITY project and implement V18 directly.
+
+First fix misleading 429 handling and prevent pointless retries.
+
+Then fix the shared rendering pipeline and core chat reliability.
+
+Next integrate quota-aware routing and V17 self-healing.
+
+Finally verify Google grounding, multimodal features, Workspace, Bioscience, Three.js, security, and regression tests.
+
+Preserve existing functionality and data.
+
+Do not invent credentials, provider availability, model capabilities, citations, latency measurements, test results, or successful repairs.
+
+Make the smallest safe changes that solve the actual problems.
+
+Implement, execute, verify, and report the real outcome—not merely the intended outcome.
